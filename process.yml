@@ -1,0 +1,24 @@
+name: Aragon listen event
+steps:
+  - type: trigger
+    instance:
+      src: https://github.com/mesg-foundation/service-ethereum-contract
+      env:
+        - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
+        - CONTRACT_ADDRESS=$(env:CONTRACT_ADDRESS)
+        - CONTRACT_ABI=$(env:CONTRACT_ABI)
+        - BLOCK_CONFIRMATIONS=0
+    eventKey: event
+  - type: task
+    instance:
+      src: https://github.com/mesg-foundation/service-webhook
+    taskKey: call
+    inputs:
+      url: 'https://webhook.site/19c55a16-34b3-4a99-96e4-d007829150f0'
+      data:
+        name: { key: name }
+        blockHash: { key: blockHash }
+        blockNumber: { key: blockNumber }
+        transactionHash: { key: transactionHash }
+        transactionIndex: { key: transactionIndex }
+        data: { key: data }
