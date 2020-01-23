@@ -17,7 +17,7 @@ npm install -g @mesg/cli
 Download the source code of the application. You can clone this repository by using the following command:
 
 ```bash
-git clone https://github.com/mesg-foundation/application-stripe-to-erc20.git
+git clone https://github.com/mesg-foundation/aragon.git
 ```
 
 ## Download Abi from Aragon
@@ -36,9 +36,11 @@ When download is completed. Extract the download files an copy the `artifact.jso
 
 ## Network of Aragon
 
+You can create your own organization. Following the url below:
+
 **Mainnet:** https://mainnet.aragon.org/#/
 
-**Rinkeby:** https://rinkeby.aragon.org/#/testnest/
+**Rinkeby:** https://rinkeby.aragon.org/#/
 
 ## Create configuration file
 
@@ -59,27 +61,9 @@ For `CONTRACT_ADDRESS`:
 
 Can find on the network website in `SYSTEM` > `Organization`
 
-## Replace application.yml
+For `WEBHOOK_ENDPOINT`:
 
-You need to replace webhook url at `'__YOUR_WEBHOOK_URL_HERE__'` by your webhook url or [webhook website](https://webhook.site/)
-
-```yml
-  ...
-  - type: task
-    instance:
-      src: https://github.com/mesg-foundation/service-webhook
-    taskKey: call
-    inputs:
-      url: '__YOUR_WEBHOOK_URL_HERE__'
-      data:
-        name: { key: name }
-        blockHash: { key: blockHash }
-        blockNumber: { key: blockNumber }
-        transactionHash: { key: transactionHash }
-        transactionIndex: { key: transactionIndex }
-        data: { key: data }
-  ...
-```
+Add your webhook endpoint or [webhook website](https://webhook.site/)
 
 ## Deploy MESG process
 
@@ -87,5 +71,6 @@ You need to replace webhook url at `'__YOUR_WEBHOOK_URL_HERE__'` by your webhook
 mesg-cli mesg-cli process:dev process.yml \
     --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT \
     --env CONTRACT_ADDRESS=$CONTRACT_ADDRESS \
-    --env CONTRACT_ABI=$CONTRACT_ABI
+    --env CONTRACT_ABI=$CONTRACT_ABI \
+    --env WEBHOOK_ENDPOINT=$WEBHOOK_ENDPOINT
 ```
