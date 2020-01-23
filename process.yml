@@ -14,7 +14,7 @@ steps:
       src: https://github.com/mesg-foundation/service-webhook
     taskKey: call
     inputs:
-      url: '__YOUR_WEBHOOK_URL_HERE__'
+      url: $(env:WEBHOOK_ENDPOINT)
       data:
         name: { key: name }
         blockHash: { key: blockHash }
