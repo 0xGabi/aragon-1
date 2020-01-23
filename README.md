@@ -1,5 +1,27 @@
 # Aragon listen events
 
+## Architecture
+
+```ascii
+
++------------+                                +-------------+
+|            |                                |             |
+|   Aragon   |                                |   Webhook   |
+|            |                                |             |
++-----+------+                                +------+------+
+      |                                              ^
+      |                                              |
+      |                                              +
+    event                                          call
+      |                                              +
+      |             +------------------+             |
+      |             |                  |             |
+      +------------>+   MESG PROCESS   +-------------+
+                    |                  |
+                    +------------------+
+
+```
+
 ## Installation
 
 ### MESG Engine
