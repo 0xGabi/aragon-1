@@ -1,4 +1,4 @@
-# Aragon listen events
+# Milestone #1: backend application connecting Aragon DAOs to a webhook connector
 
 ## Architecture
 
@@ -6,33 +6,48 @@
 
 +------------+                                +-------------+
 |            |                                |             |
-|   Aragon   |                                |   Webhook   |
+| Aragon DAO |                                |   Webhook   |
+|            |                                |             |
++-----+------+                                +------+------+
+      ^                                              ^
+      |                                              |
+    listen                                        trigger
+      |                                              |
+      |                                              |
++------------+                                +-------------+
+|            |                                |             |
+|  Ethereum  |                                |   Webhook   |
+|  service   |                                |   service   |
 |            |                                |             |
 +-----+------+                                +------+------+
       |                                              ^
       |                                              |
-      |                                              +
+      |                                              |
     event                                          call
-      |                                              +
       |             +------------------+             |
       |             |                  |             |
-      +------------>+   MESG PROCESS   +-------------+
+      +------------>+     Process      +-------------+
                     |                  |
                     +------------------+
 
 ```
 
+- The Ethereum service source code is available here: https://github.com/mesg-foundation/service-ethereum-contract.
+- The Webhook service source code is available here: https://github.com/mesg-foundation/service-webhook
+
+## Step by step explanation
+
+1. A MESG Ethereum service is running and actively listens for events from specific Aragon DAO.
+2. When a DAO event is detected, the service emits it to the MESG Engine.
+3. If the event matches a MESG Process, the process get trigger.
+4. In this case, the process executes the task `call` of the Webhook service.
+5. The Webhook service creates a HTTP request and executes it.
+
 ## Installation
 
-### MESG Engine
+## MESG Engine
 
-This service requires [MESG Engine](https://github.com/mesg-foundation/engine) to be installed first.
-
-You can install MESG Engine by running the following command or [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
-
-```bash
-npm install -g @mesg/cli
-```
+This application requires [MESG Engine](https://github.com/mesg-foundation/engine) to be installed first, [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
 
 ## Download source
 
@@ -42,57 +57,51 @@ Download the source code of the application. You can clone this repository by us
 git clone https://github.com/mesg-foundation/aragon.git
 ```
 
-## Download Abi from Aragon
+## Download latest Aragon Core Apps abi
 
-Following the url to download the abi core Aragon app for each network :
+**Repo of the Aragon Core Apps:** https://github.com/aragon/aragon-apps
 
-**The core Aragon listed apps:** https://github.com/aragon/aragon-apps
+Follow the url of the network of your choice to download the corresponding Aragon Core apps deployment archive:
+- **Mainnet network:** https://github.com/aragon/deployments/tree/master/environments/mainnet
+- **Rinkeby network:** https://github.com/aragon/deployments/tree/master/environments/rinkeby
 
-**Mainnet network:** https://github.com/aragon/deployments/tree/master/environments/mainnet
+When the download is completed, extract the archive, copy the `artifact.json` this repo's folder and rename it with the name of the app (for example `voting.json` for the voting app). Reproduce this step for every Aragon Core Apps.
 
-**Rinkeby network:** https://github.com/aragon/deployments/tree/master/environments/rinkeby
+## Environment file
 
-**Ropsten network:** https://github.com/aragon/deployments/tree/master/environments/ropsten
+Let's setup the env file to configure the process and service correctly.
 
-When download is completed. Extract the download files an copy the `artifact.json` to the application root folder or your create folder.You can rename the `artifact.json`by the name of you want. Example, the download files name is `finance.aragonpm.eth@2.1.6.tar.gz` then the `artifact.json` file can rename like `finance-abi.json`.
+- Copy the `.env.example` to `.env.voting` for voting app.
+- Open `.env` and update the values
+  - `PROVIDER_ENDPOINT` is the HTTP endpoint of a web3 provider. You can put your own node or just use Infura for test. Make sure to use the same network as your Aragon DAO.
+  - `CONTRACT_ADDRESS` is the smart contract address of the a specific app of the DAO. Can be found on the DAO website in `SYSTEM` > `Organization` and `INSTALLED ARAGON APPS`.
+  - `CONTRACT_ABI` is the full ABI of the smart contract. If you have `jq` installed, just update `ARTIFACT_FILE`.
+  - `WEBHOOK_ENDPOINT` is the http endpoint of the webhook. You can use https://webhook.site/ to get a test endpoint.
+- Reproduce these steps for every Aragon Core Apps.
 
-## Network of Aragon
+## Run it!
 
-You can create your own organization. Following the url below:
-
-**Mainnet:** https://mainnet.aragon.org/#/
-
-**Rinkeby:** https://rinkeby.aragon.org/#/
-
-## Create configuration file
-
-Copy the `.env.example` to `.env`.
-
-This file contains required configurations needed for the application.
-You need to replace by the right value.
-
-For `PROVIDER_ENDPOINT`:
-
-**Mainnet network:** `PROVIDER_ENDPOINT=https://mainnet.infura.io/v3/<PROJECT_ID/>`
-
-**Ropsten network:** `PROVIDER_ENDPOINT=https://ropsten.infura.io/v3/<PROJECT_ID/>`
-
-**Rinkeby network:** `PROVIDER_ENDPOINT=https://rinkeby.infura.io/v3/PROJECT_ID`
-
-For `CONTRACT_ADDRESS`:
-
-Can find on the network website in `SYSTEM` > `Organization`
-
-For `WEBHOOK_ENDPOINT`:
-
-Add your webhook endpoint or [webhook website](https://webhook.site/)
-
-## Deploy MESG process
+The following command will start the required services, start the process and display its logs.
 
 ```bash
-mesg-cli mesg-cli process:dev process.yml \
+source .env.voting
+mesg-cli process:dev process.yml \
     --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT \
     --env CONTRACT_ADDRESS=$CONTRACT_ADDRESS \
     --env CONTRACT_ABI=$CONTRACT_ABI \
     --env WEBHOOK_ENDPOINT=$WEBHOOK_ENDPOINT
 ```
+Reproduce this step for every Aragon Core Apps.
+
+Stopping this command also stop the process, you'll have to stop manually the services.
+
+## Demo
+
+Check out the demo video: https://www.youtube.com/watch?v=qUr9qoincDI
+
+## Current limitation
+
+- The Ethereum service used has some limitation due to its design. It works with one specific smart contract (contract address and its ABI, see the details in installation paragraph). As Aragon DAOs rely on multiple smart contracts, the service has to be deployed multiple times with different configuration. For next milestones, we will use a generic purpose Ethereum service and update the process to make it more specific.
+- The Ethereum service requires a external provider to connect to Ethereum. It could directly integrate geth configured as a light client.
+- The webhook service could use a secret token or sign the request in order to prove the origin and prevent abuse.
+- Getting the ABI and smart contract address of the Aragon App is manual.

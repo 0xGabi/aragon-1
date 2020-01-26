@@ -1,4 +1,4 @@
-name: Aragon listen event
+name: Aragon DAO events to webhook
 steps:
   - type: trigger
     instance:
