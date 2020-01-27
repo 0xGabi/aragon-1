@@ -45,7 +45,11 @@
 
 ## Demo
 
-Check out the demo video: https://www.youtube.com/watch?v=Mji0ee1l4z8
+Check out the demo video:
+
+[![Demo: Synchronize any Aragon event to a webhook](http://img.youtube.com/vi/Mji0ee1l4z8/0.jpg)](http://www.youtube.com/watch?v=Mji0ee1l4z8 "Demo: Synchronize any Aragon event to a webhook")
+
+Source: https://www.youtube.com/watch?v=Mji0ee1l4z8
 
 ## Installation
 
