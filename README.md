@@ -9,11 +9,11 @@
 | Aragon DAO |                                |   Webhook   |
 |            |                                |             |
 +-----+------+                                +------+------+
-      ^                                              ^
+      |                                              ^
       |                                              |
     listen                                        trigger
       |                                              |
-      |                                              |
+      v                                              |
 +------------+                                +-------------+
 |            |                                |             |
 |  Ethereum  |                                |   Webhook   |
