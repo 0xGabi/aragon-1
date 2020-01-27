@@ -17,7 +17,7 @@
 +------------+                                +-------------+
 |            |                                |             |
 |  Ethereum  |                                |   Webhook   |
-|  service   |                                |   service   |
+|  services  |                                |   service   |
 |            |                                |             |
 +-----+------+                                +------+------+
       |                                              ^
@@ -37,8 +37,8 @@
 
 ## Step by step explanation
 
-1. A MESG Ethereum service is running and actively listening for events from specific Aragon DAO.
-2. When a DAO event is detected, the service emits it to the MESG Engine.
+1. Multiple MESG Ethereum services are running and actively listening for events from specific applications of an Aragon DAO.
+2. When an Ethereum event is detected, the service emits it to the MESG Engine.
 3. If the event matches a MESG Process, the process get trigger.
 4. In this case, the process executes the task `call` of the Webhook service.
 5. The Webhook service creates a HTTP request and executes it.
@@ -102,10 +102,3 @@ mesg-cli process:dev process.yml \
 Reproduce this step for every Aragon Core Apps.
 
 Stopping this command also stop the process, you'll have to stop manually the services.
-
-## Current limitation
-
-- The Ethereum service used has some limitation due to its design. It works with one specific smart contract (contract address and its ABI, see the details in installation paragraph). As Aragon DAOs rely on multiple smart contracts, the service has to be deployed multiple times with different configuration. For next milestones, we will use a generic purpose Ethereum service and update the process to make it more specific.
-- The Ethereum service requires a external provider to connect to Ethereum. It could directly integrate geth configured as a light client.
-- The webhook service could use a secret token or sign the request in order to prove the origin and prevent abuse.
-- Getting the ABI and smart contract address of the Aragon App is manual.
