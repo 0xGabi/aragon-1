@@ -43,6 +43,10 @@
 4. In this case, the process executes the task `call` of the Webhook service.
 5. The Webhook service creates a HTTP request and executes it.
 
+## Demo
+
+Check out the demo video: https://www.youtube.com/watch?v=Mji0ee1l4z8
+
 ## Installation
 
 ## MESG Engine
@@ -94,10 +98,6 @@ mesg-cli process:dev process.yml \
 Reproduce this step for every Aragon Core Apps.
 
 Stopping this command also stop the process, you'll have to stop manually the services.
-
-## Demo
-
-Check out the demo video: https://www.youtube.com/watch?v=Mji0ee1l4z8
 
 ## Current limitation
 
