@@ -37,7 +37,7 @@
 
 ## Step by step explanation
 
-1. A MESG Ethereum service is running and actively listens for events from specific Aragon DAO.
+1. A MESG Ethereum service is running and actively listening for events from specific Aragon DAO.
 2. When a DAO event is detected, the service emits it to the MESG Engine.
 3. If the event matches a MESG Process, the process get trigger.
 4. In this case, the process executes the task `call` of the Webhook service.
@@ -83,7 +83,7 @@ Let's setup the env file to configure the process and service correctly.
 - Open `.env` and update the values
   - `PROVIDER_ENDPOINT` is the HTTP endpoint of a web3 provider. You can put your own node or just use Infura for test. Make sure to use the same network as your Aragon DAO.
   - `CONTRACT_ADDRESS` is the smart contract address of the a specific app of the DAO. Can be found on the DAO website in `SYSTEM` > `Organization` and `INSTALLED ARAGON APPS`.
-  - `CONTRACT_ABI` is the full ABI of the smart contract. If you have `jq` installed, just update `ARTIFACT_FILE`.
+  - `CONTRACT_ABI` is the full ABI of the smart contract. If you have `jq` installed, just update `ARTIFACT_FILE`, otherwise put the whole ABI.
   - `WEBHOOK_ENDPOINT` is the http endpoint of the webhook. You can use https://webhook.site/ to get a test endpoint.
 - Reproduce these steps for every Aragon Core Apps.
 
