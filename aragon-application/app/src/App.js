@@ -2,7 +2,23 @@ import { useAragonApi, useGuiStyle } from '@aragon/api-react'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-import { AppBadge, IdentityBadge, Button, Header, Main, SyncIndicator, DataView, Text, Tag, Layout, ContextMenu, ContextMenuItem, IconConnection, IconError } from '@aragon/ui'
+import {
+  AppBadge,
+  IdentityBadge,
+  Button,
+  Header,
+  Main,
+  SyncIndicator,
+  DataView,
+  Text,
+  Tag,
+  Layout,
+  ContextMenu,
+  ContextMenuItem,
+  IconConnection,
+  IconError,
+  IconRemove
+} from '@aragon/ui'
 
 import Sidebar from './components/Sidebar'
 
@@ -27,7 +43,6 @@ function App() {
   }
 
   const open = () => setOpened(true)
-
   const close = () => setOpened(false)
 
   // The mock data will be remove when @aragon/api has published
@@ -50,7 +65,11 @@ function App() {
   }
 
   const disActivate = index => {
-    api.desactivate(index).toPromise()
+    api
+      .desactivate(index)
+      .toPromise()
+      .then(console.log)
+      .catch(console.error)
   }
 
   const valueName = ({ createdAt, owner, appAddress, eventName, url, active, index }) => {
@@ -62,7 +81,9 @@ function App() {
       <Text size='small'>{eventName}</Text>,
       <Text size='small'>{url}</Text>,
       <ContextMenu disabled={!active}>
-        <ContextMenuItem onClick={() => disActivate(index)}>Disabled</ContextMenuItem>
+        <ContextMenuItem onClick={() => disActivate(index)}>
+          <IconRemove /> Disabled
+        </ContextMenuItem>
       </ContextMenu>
     ]
   }

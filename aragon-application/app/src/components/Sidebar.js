@@ -1,9 +1,11 @@
 import { SidePanel, Field, DropDown, Button, TextInput } from '@aragon/ui'
 import { useAragonApi } from '@aragon/api-react'
 import React, { useState } from 'react'
+import Web3 from 'web3'
+import APM from '@aragon/apm'
 
 function Sidebar({ opened, close, installedAppWithAbi }) {
-  const { api } = useAragonApi()
+  const { api, installedApps } = useAragonApi()
   const [appSelected, setAppSelected] = useState(-1)
   const [eventSelected, setEventSelected] = useState(-1)
   const [textInput, setTextInput] = useState('')
@@ -21,7 +23,22 @@ function Sidebar({ opened, close, installedAppWithAbi }) {
     }, 3000)
   }
 
-  const handleSelectChange = e => {
+  const handleSelectChange = async e => {
+    const web3 = new Web3('ws://localhost:8545')
+
+    const apm = APM(web3, { ensRegistryAddress: '0x5f6f7e8cc7346a11ca2def8f827b7a0b612c56a1' })
+
+    window.ArApm = apm
+    window.usApm = useAragonApi()
+
+    const app = installedApps[e]
+    const versions = await apm.getAllVersions(app.appId)
+    const version = versions.find(x => x.contractAddress === app.appImplementationAddress)
+    if (!version) {
+      throw new Error(`cannot find version for ${app.appImplementationAddress}`)
+    }
+    console.log(version)
+
     setAppSelected(e)
     setEventSelected(-1)
   }
