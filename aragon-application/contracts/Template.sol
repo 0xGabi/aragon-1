@@ -99,7 +99,7 @@ contract Template is BaseTemplate, TokenCache {
 
     function _createProcessAppPermissions(ACL _acl, ProcessApp _app, address _grantee, address _manager) internal {
         _acl.createPermission(_grantee, _app, _app.PUBLISH_ROLE(), _manager);
-        _acl.createPermission(ANY_ENTITY, _app, _app.DESACTIVATE_ROLE(), _manager);
+        _acl.createPermission(_grantee, _app, _app.DESACTIVATE_ROLE(), _manager);
     }
 
     //--------------------------------------------------------------//

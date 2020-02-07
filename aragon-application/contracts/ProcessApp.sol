@@ -5,12 +5,11 @@ import "@aragon/os/contracts/apps/AragonApp.sol";
 
 contract ProcessApp is AragonApp {
     // Events
-    event Created(address owner, address appAddress,address appImplementationAddress, string eventName, string url);
-    event Desactivated(address owner, uint256 index);
+    event Created(address appAddress,address appImplementationAddress, string eventName, string url);
+    event Desactivated(uint256 index);
 
     struct Process {
         uint256 createdAt;
-        address owner;
         address appAddress;
         address appImplementationAddress;
         string eventName;
@@ -34,8 +33,8 @@ contract ProcessApp is AragonApp {
      */
     function create(address appAddress,address appImplementationAddress, string eventName, string url) external auth(PUBLISH_ROLE) {
         process.push(
-            Process({createdAt: block.timestamp, owner: msg.sender, appAddress: appAddress, appImplementationAddress: appImplementationAddress, eventName: eventName, url: url, active: true}));
-        emit Created(msg.sender, appAddress, appImplementationAddress, eventName, url);
+            Process({createdAt: block.timestamp, appAddress: appAddress, appImplementationAddress: appImplementationAddress, eventName: eventName, url: url, active: true}));
+        emit Created(appAddress, appImplementationAddress, eventName, url);
     }
 
     /**
@@ -43,18 +42,18 @@ contract ProcessApp is AragonApp {
      */
     function desactivate(uint256 index) external auth(DESACTIVATE_ROLE) {
         process[index].active = false;
-        emit Desactivated(msg.sender, index);
+        emit Desactivated(index);
     }
 
     function getProcess(uint256 index)
         public
         view
-        returns (uint256 createdAt, address owner, address appAddress, string eventName, string url, bool active)
+        returns (uint256 createdAt, address appAddress, address appImplementationAddress, string eventName, string url, bool active)
     {
         return (
             process[index].createdAt,
-            process[index].owner,
             process[index].appAddress,
+            process[index].appImplementationAddress,
             process[index].eventName,
             process[index].url,
             process[index].active
