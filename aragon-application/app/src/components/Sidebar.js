@@ -4,42 +4,35 @@ import React, { useState } from 'react'
 import Web3 from 'web3'
 import APM from '@aragon/apm'
 
-function Sidebar({ opened, close, installedAppWithAbi }) {
-  const { api, installedApps } = useAragonApi()
+function Sidebar({ opened, close, installedApps }) {
+  const { api } = useAragonApi()
   const [appSelected, setAppSelected] = useState(-1)
   const [eventSelected, setEventSelected] = useState(-1)
+  const [eventsAbi, setEventsAbi] = useState([])
   const [textInput, setTextInput] = useState('')
 
-  const appName = installedAppWithAbi.map(v => v.name)
-
-  const Abi = installedAppWithAbi.map(v => ({ name: v.name, abi: v.abi }))
-
-  const getEventFromAbi = name => Abi.find(abi => abi.name === name).abi.map(event => event.name)
+  const appName = installedApps.map(v => v.name)
 
   const handleSubmit = () => {
-    api.create(installedAppWithAbi[appSelected].appAddress, getEventFromAbi(appName[appSelected])[eventSelected], textInput.trim()).toPromise()
+    const app = installedApps[appSelected]
+    api.create(app.appAddress, app.appImplementationAddress, eventsAbi[eventSelected], textInput.trim()).toPromise()
     setTimeout(() => {
       close()
-    }, 3000)
+    }, 5000)
   }
 
   const handleSelectChange = async e => {
     const web3 = new Web3('ws://localhost:8545')
-
     const apm = APM(web3, { ensRegistryAddress: '0x5f6f7e8cc7346a11ca2def8f827b7a0b612c56a1' })
-
-    window.ArApm = apm
-    window.usApm = useAragonApi()
-
+    setAppSelected(e)
     const app = installedApps[e]
     const versions = await apm.getAllVersions(app.appId)
     const version = versions.find(x => x.contractAddress === app.appImplementationAddress)
     if (!version) {
       throw new Error(`cannot find version for ${app.appImplementationAddress}`)
     }
-    console.log(version)
-
-    setAppSelected(e)
+    const AbiEvent = version.abi.filter(abi => abi.type === 'event').map(event => event.name)
+    setEventsAbi(AbiEvent)
     setEventSelected(-1)
   }
 
@@ -54,13 +47,7 @@ function Sidebar({ opened, close, installedAppWithAbi }) {
           <DropDown placeholder='Select an application' items={appName} selected={appSelected} onChange={handleSelectChange} wide />
         </Field>
         <Field label='Events'>
-          <DropDown
-            placeholder='Select an event'
-            items={appSelected !== -1 ? getEventFromAbi(appName[appSelected]) : []}
-            selected={eventSelected}
-            onChange={setEventSelected}
-            wide
-          />
+          <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} wide />
         </Field>
         <Field label='Webhook Url'>
           <TextInput

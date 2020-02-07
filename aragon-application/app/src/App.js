@@ -17,14 +17,11 @@ import {
   ContextMenuItem,
   IconConnection,
   IconError,
-  IconRemove
+  IconRemove,
+  GU
 } from '@aragon/ui'
 
 import Sidebar from './components/Sidebar'
-
-// The mock data will be remove when @aragon has published
-import Voting from '../mock/Voting.json'
-import Tokens from '../mock/Tokens.json'
 
 function App() {
   const { api, appState, currentApp, installedApps } = useAragonApi()
@@ -45,31 +42,13 @@ function App() {
   const open = () => setOpened(true)
   const close = () => setOpened(false)
 
-  // The mock data will be remove when @aragon/api has published
-  const installedAppWithAbi = installedApps
-    .filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)
-    .map(app => {
-      switch (app.name) {
-        case 'Voting':
-          return { ...app, abi: Voting.abi.filter(data => data.type === 'event') }
-        case 'Tokens':
-          return { ...app, abi: Tokens.abi.filter(data => data.type === 'event') }
-        default:
-          return app
-      }
-    })
-
   const filterApp = addr => {
     const getApp = installedApps.find(app => app.appAddress.toLowerCase() === addr.toLowerCase())
     return getApp
   }
 
   const disActivate = index => {
-    api
-      .desactivate(index)
-      .toPromise()
-      .then(console.log)
-      .catch(console.error)
+    api.desactivate(index).toPromise()
   }
 
   const valueName = ({ createdAt, owner, appAddress, eventName, url, active, index }) => {
@@ -82,7 +61,14 @@ function App() {
       <Text size='small'>{url}</Text>,
       <ContextMenu disabled={!active}>
         <ContextMenuItem onClick={() => disActivate(index)}>
-          <IconRemove /> Disabled
+          <IconRemove />
+          <div
+            css={`
+              width: ${1 * GU}px;
+              padding: ${1 * GU}px ${1 * GU}px;
+            `}
+          />{' '}
+          Disabled
         </ContextMenuItem>
       </ContextMenu>
     ]
@@ -90,15 +76,7 @@ function App() {
   return (
     <Main theme={appearance}>
       <Layout>
-        <Header
-          primary='Connections'
-          secondary={
-            <Button mode='strong' size='medium' onClick={open}>
-              Create Process
-            </Button>
-          }
-        />
-
+        <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Process' onClick={open} />} />
         <DataView
           css={`
             border: none;
@@ -121,7 +99,7 @@ function App() {
           renderEntry={valueName}
         />
       </Layout>
-      <Sidebar opened={opened} close={close} installedAppWithAbi={installedAppWithAbi} />
+      <Sidebar opened={opened} close={close} installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
     </Main>
   )
 }
