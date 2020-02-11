@@ -1,20 +1,43 @@
+import { Modal, textStyle, Button, IconDownload, GU } from '@aragon/ui'
+import { useAragonApi } from '@aragon/api-react'
 import React from 'react'
 import yaml from 'yaml-js'
 
-import { Modal, textStyle, Button, IconDownload, GU } from '@aragon/ui'
+import { getAllVersions } from '../utils/APM'
 
-function PopupModal({ displayModal, closeModal }) {
-  const downloadFile = () => {
-    const data = {} // get from smart contract
+function PopupModal({ displayModal, closeModal, processData }) {
+  const { installedApps } = useAragonApi()
+
+  const getAbi = async () => {
+    if (processData !== null) {
+      const installedApp = installedApps.find(app => app.appAddress.toLowerCase() === processData.appAddress.toLowerCase())
+      const version = await getAllVersions(installedApp.appId, installedApp.appImplementationAddress)
+      if (!version) {
+        throw new Error(`cannot find version for ${app.appImplementationAddress}`)
+      }
+      const abiEvent = version.abi.find(abi => abi.name === processData.eventName)
+      return abiEvent
+    }
+  }
+
+  const downloadFile = async () => {
+    const abiEvent = await getAbi()
+    const endpoint = 'ws://docker.for.mac.localhost:8545' // TODO: remove localhost endpoint
     const createYaml = yaml.dump({
-      name: 'appImplementation/0',
+      name: `${processData.appAddress}/${processData.index}`,
       steps: [
         {
           type: 'trigger',
-          eventKey: data.eventName,
           instance: {
             src: 'https://github.com/mesg-foundation/service-ethereum-contract',
-            env: [`PROVIDER_ENDPOINT=${aragonEndpoint}`, `CONTRACT_ADDRESS=${appImplementation}`, `CONTRACT_ABI=${abi}`]
+            env: [`PROVIDER_ENDPOINT=${endpoint}`, `CONTRACT_ADDRESS=${processData.appAddress}`, `CONTRACT_ABI=[${JSON.stringify(abiEvent)}]`]
+          },
+          eventKey: 'event'
+        },
+        {
+          type: 'filter',
+          conditions: {
+            name: processData.eventName
           }
         },
         {
@@ -22,8 +45,9 @@ function PopupModal({ displayModal, closeModal }) {
           instance: {
             src: 'https://github.com/mesg-foundation/service-webhook'
           },
+          taskKey: 'call',
           inputs: {
-            url: data.url,
+            url: processData.url,
             data: {
               name: { key: 'name' },
               blockHash: { key: 'blockHash' },
@@ -39,7 +63,7 @@ function PopupModal({ displayModal, closeModal }) {
     const element = document.createElement('a')
     const file = new Blob([createYaml], { type: 'application/x-yaml' })
     element.href = URL.createObjectURL(file)
-    element.download = 'myFile.yml'
+    element.download = 'process.yml'
     document.body.appendChild(element) // Required for this to work in FireFox
     element.click()
   }
