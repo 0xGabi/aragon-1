@@ -29,6 +29,7 @@ function App() {
   const { appearance } = useGuiStyle()
   const [opened, setOpened] = useState(false)
   const [displayModal, setDisplayModal] = useState(false)
+  const [processData, setSelectProcessData] = useState(null)
   const { processes, isSyncing } = appState
 
   if (isSyncing) {
@@ -43,7 +44,10 @@ function App() {
 
   const open = () => setOpened(true)
   const close = () => setOpened(false)
-  const openModal = () => setDisplayModal(true)
+  const openModal = params => {
+    setDisplayModal(true)
+    setSelectProcessData(params)
+  }
   const closeModal = () => setDisplayModal(false)
 
   const filterApp = addr => {
@@ -55,14 +59,19 @@ function App() {
     api.desactivate(index).toPromise()
   }
 
-  const valueName = ({ createdAt, appAddress, eventName, url, active, index }) => {
+  const valueName = ({ createdAt, appAddress, eventName, url, active, index, appImplementationAddress }) => {
     return [
       <Tag size='normal' color={active ? 'green' : 'red'} background='transparent' icon={active ? <IconConnection /> : <IconError />} />,
       <Text size='small'>{createdAt}</Text>,
       <AppBadge appAddress={appAddress} label={filterApp(appAddress).name} iconSrc={filterApp(appAddress).icon()} identifier={filterApp(appAddress).identifier} />,
       <Text size='small'>{eventName}</Text>,
       <Text size='small'>{url}</Text>,
-      <Button label='Deploy' icon={<IconCloudUpload />} onClick={openModal} disabled={!active} />,
+      <Button
+        label='Deploy Process'
+        icon={<IconCloudUpload />}
+        onClick={() => openModal({ createdAt, appAddress, eventName, url, active, index, appImplementationAddress })}
+        disabled={!active}
+      />,
       <ContextMenu disabled={!active}>
         <ContextMenuItem onClick={() => disActivate(index)}>
           <IconRemove />
@@ -71,7 +80,7 @@ function App() {
               width: ${1 * GU}px;
               padding: ${1 * GU}px ${1 * GU}px;
             `}
-          />{' '}
+          />
           Disabled
         </ContextMenuItem>
       </ContextMenu>
@@ -103,7 +112,8 @@ function App() {
                   appAddress: process.appAddress,
                   eventName: process.eventName,
                   url: process.url,
-                  active: process.active
+                  active: process.active,
+                  appImplementationAddress: process.appImplementationAddress
                 }))
               : []
           }
@@ -111,7 +121,7 @@ function App() {
         />
       </Layout>
       <Sidebar opened={opened} close={close} installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
-      <Modal displayModal={displayModal} closeModal={closeModal} />
+      <Modal displayModal={displayModal} closeModal={closeModal} processData={processData} />
     </Main>
   )
 }
