@@ -1,7 +1,7 @@
-import { Modal, textStyle, Button, IconDownload, GU } from '@aragon/ui'
+import { Modal, textStyle, Button, IconDownload, GU, TextCopy, Layout } from '@aragon/ui'
 import { useAragonApi } from '@aragon/api-react'
-import React from 'react'
-import yaml from 'yaml-js'
+import React, { useState, useEffect } from 'react'
+// import yaml from 'yaml-js'
 
 import { getAllVersions } from '../utils/APM'
 import { encodeEventSignature } from '../utils/Web3'
@@ -9,6 +9,7 @@ import ProcessTemplate from '../utils/processTemplate'
 
 function PopupModal({ displayModal, closeModal, processData }) {
   const { installedApps } = useAragonApi()
+  const [processText, setProcessText] = useState(null)
 
   const getEventAbi = async () => {
     if (processData !== null) {
@@ -23,18 +24,16 @@ function PopupModal({ displayModal, closeModal, processData }) {
   }
 
   const downloadFile = async () => {
-    const eventAbi = await getEventAbi()
-    const endpoint = 'ws://docker.for.mac.localhost:8545' // TODO: remove localhost endpoint
-    const encode = await encodeEventSignature(eventAbi)
-    const temp = ProcessTemplate(processData, eventAbi, encode, endpoint)
-    const createYaml = yaml.dump(temp)
-    const element = document.createElement('a')
-    const file = new Blob([createYaml], { type: 'application/x-yaml' })
-    element.href = URL.createObjectURL(file)
-    element.download = 'process.yml'
-    document.body.appendChild(element) // Required for this to work in FireFox
-    element.click()
+    if (processData && displayModal) {
+      const eventAbi = await getEventAbi()
+      const encode = await encodeEventSignature(eventAbi)
+      const temp = await ProcessTemplate(processData, eventAbi, encode)
+      const command = `npx mesg-cli process:create '${JSON.stringify(temp)}' `
+      setProcessText(command)
+    }
   }
+
+  downloadFile()
 
   return (
     <Modal visible={displayModal} onClose={closeModal} closeButton={false}>
@@ -52,7 +51,7 @@ function PopupModal({ displayModal, closeModal, processData }) {
       >
         <ol>
           <li>
-            <strong>Download the process file</strong>
+            <strong>Copy the text and run it on the terminal</strong>
             <div
               css={`
                 width: 100%;
@@ -60,15 +59,8 @@ function PopupModal({ displayModal, closeModal, processData }) {
                 justify-content: center;
                 padding: ${1 * GU}px ${1 * GU}px;
               `}
-            >
-              <Button label='Download file' icon={<IconDownload />} onClick={downloadFile} />
-            </div>
-          </li>
-          <li>
-            Run the command to deploy:
-            <div>
-              <code>npx mesg-cli process:create "$(npx mesg-cli process:compile PATH_TO_THE_PROCESS_FILE)"</code>
-            </div>
+            />
+            <TextCopy value={processText} />
           </li>
         </ol>
       </div>
