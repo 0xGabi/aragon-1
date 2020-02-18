@@ -1,7 +1,6 @@
-import { Modal, textStyle, Button, IconDownload, GU, TextCopy, Layout } from '@aragon/ui'
+import { Modal, textStyle, GU, TextCopy } from '@aragon/ui'
 import { useAragonApi } from '@aragon/api-react'
-import React, { useState, useEffect } from 'react'
-// import yaml from 'yaml-js'
+import React, { useState } from 'react'
 
 import { getAllVersions } from '../utils/APM'
 import { encodeEventSignature } from '../utils/Web3'
