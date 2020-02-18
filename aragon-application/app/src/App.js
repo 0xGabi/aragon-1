@@ -2,34 +2,14 @@ import { useAragonApi, useGuiStyle } from '@aragon/api-react'
 import moment from 'moment'
 import React, { useState } from 'react'
 
-import {
-  AppBadge,
-  Button,
-  Header,
-  Main,
-  SyncIndicator,
-  DataView,
-  Text,
-  Tag,
-  Layout,
-  ContextMenu,
-  ContextMenuItem,
-  IconConnection,
-  IconError,
-  IconRemove,
-  GU,
-  IconCloudUpload
-} from '@aragon/ui'
+import { AppBadge, Button, Header, Main, SyncIndicator, DataView, Text, Tag, Layout, ContextMenu, ContextMenuItem, IconConnection, IconError, IconRemove, GU } from '@aragon/ui'
 
 import Sidebar from './components/Sidebar'
-import Modal from './components/PopupModal'
 
 function App() {
   const { api, appState, currentApp, installedApps } = useAragonApi()
   const { appearance } = useGuiStyle()
   const [opened, setOpened] = useState(false)
-  const [displayModal, setDisplayModal] = useState(false)
-  const [processData, setSelectProcessData] = useState(null)
   const { processes, isSyncing } = appState
 
   if (isSyncing) {
@@ -44,11 +24,6 @@ function App() {
 
   const open = () => setOpened(true)
   const close = () => setOpened(false)
-  const openModal = params => {
-    setDisplayModal(true)
-    setSelectProcessData(params)
-  }
-  const closeModal = () => setDisplayModal(false)
 
   const filterApp = addr => {
     const getApp = installedApps.find(app => app.appAddress.toLowerCase() === addr.toLowerCase())
@@ -59,19 +34,13 @@ function App() {
     api.desactivate(index).toPromise()
   }
 
-  const valueName = ({ createdAt, appAddress, eventName, url, active, index, appImplementationAddress }) => {
+  const valueName = ({ createdAt, appAddress, eventName, url, active, index }) => {
     return [
       <Tag size='normal' color={active ? 'green' : 'red'} background='transparent' icon={active ? <IconConnection /> : <IconError />} />,
       <Text size='small'>{createdAt}</Text>,
       <AppBadge appAddress={appAddress} label={filterApp(appAddress).name} iconSrc={filterApp(appAddress).icon()} identifier={filterApp(appAddress).identifier} />,
       <Text size='small'>{eventName}</Text>,
       <Text size='small'>{url}</Text>,
-      <Button
-        label='Deploy Process'
-        icon={<IconCloudUpload />}
-        onClick={() => openModal({ createdAt, appAddress, eventName, url, active, index, appImplementationAddress })}
-        disabled={!active}
-      />,
       <ContextMenu disabled={!active}>
         <ContextMenuItem onClick={() => disActivate(index)}>
           <IconRemove />
@@ -94,15 +63,7 @@ function App() {
           css={`
             border: none;
           `}
-          fields={[
-            'Status',
-            { label: 'Created At', align: 'start' },
-            'App Address',
-            'Event Name',
-            { label: 'Url', align: 'start' },
-            { label: 'Download', align: 'start' },
-            { label: ' ', align: 'end' }
-          ]}
+          fields={['Status', { label: 'Created At', align: 'start' }, 'App Address', 'Event Name', { label: 'Url', align: 'start' }, { label: ' ', align: 'end' }]}
           statusLoading={isSyncing}
           entries={
             processes.length !== 0
@@ -113,7 +74,8 @@ function App() {
                   eventName: process.eventName,
                   url: process.url,
                   active: process.active,
-                  appImplementationAddress: process.appImplementationAddress
+                  appImplementationAddress: process.appImplementationAddress,
+                  ipfsHash: process.ipfsHash
                 }))
               : []
           }
@@ -121,7 +83,6 @@ function App() {
         />
       </Layout>
       <Sidebar opened={opened} close={close} installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
-      <Modal displayModal={displayModal} closeModal={closeModal} processData={processData} />
     </Main>
   )
 }

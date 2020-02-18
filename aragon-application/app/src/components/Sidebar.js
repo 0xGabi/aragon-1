@@ -3,6 +3,8 @@ import { useAragonApi } from '@aragon/api-react'
 import React, { useState } from 'react'
 
 import { getAllVersions } from '../utils/APM'
+import { encodeEventSignature } from '../utils/Web3'
+import ProcessTemplate from '../utils/processTemplate'
 
 function Sidebar({ opened, close, installedApps }) {
   const { api } = useAragonApi()
@@ -13,12 +15,25 @@ function Sidebar({ opened, close, installedApps }) {
 
   const appName = installedApps.map(v => v.name)
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const app = installedApps[appSelected]
-    api.create(app.appAddress, app.appImplementationAddress, eventsAbi[eventSelected], textInput.trim()).toPromise()
-    setTimeout(() => {
-      close()
-    }, 5000)
+    const version = await getAllVersions(app.appId, app.appImplementationAddress)
+    if (!version) {
+      throw new Error(`cannot find version for ${app.appAddress}`)
+    }
+    const eventAbi = version.abi.find(abi => abi.name === eventsAbi[eventSelected])
+    const eventSignature = await encodeEventSignature(eventAbi)
+    const ipfsHash = await ProcessTemplate(app, eventAbi, eventSignature)
+
+    console.log(`http://localhost:8080/ipfs/${ipfsHash}`)
+
+    await api.create(app.appAddress, app.appImplementationAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
+
+    setAppSelected(-1)
+    setEventSelected(-1)
+    setEventsAbi([])
+    setTextInput('')
+    close()
   }
 
   const handleSelectChange = async e => {

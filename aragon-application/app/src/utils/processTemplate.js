@@ -49,9 +49,7 @@ steps:
 
   const hash = await save(JSON.stringify(compile))
 
-  console.log(`http://localhost:8080/ipfs/${hash}`)
-
-  return compile
+  return hash
 }
 
 export default compiler
