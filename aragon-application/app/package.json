@@ -10,6 +10,7 @@
     "@mesg/compiler": "^0.2.0",
     "axios": "^0.19.2",
     "core-js": "^3.1.4",
+    "ipfs-http-client": "^42.0.0",
     "moment": "^2.24.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -19,6 +20,9 @@
     "web3": "^1.2.6",
     "yaml-js": "^0.2.3"
   },
+  "browserslist": [
+    "last 2 versions and not dead and > 2%"
+  ],
   "devDependencies": {
     "@babel/core": "^7.5.4",
     "@babel/plugin-proposal-class-properties": "^7.5.0",
