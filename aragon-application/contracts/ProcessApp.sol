@@ -5,13 +5,14 @@ import "@aragon/os/contracts/apps/AragonApp.sol";
 
 contract ProcessApp is AragonApp {
     // Events
-    event Created(address appAddress,address appImplementationAddress, string eventName, string url);
+    event Created(address appAddress,address appImplementationAddress,string ipfsHash, string eventName, string url);
     event Desactivated(uint256 index);
 
     struct Process {
         uint256 createdAt;
         address appAddress;
         address appImplementationAddress;
+        string ipfsHash;
         string eventName;
         string url;
         bool active;
@@ -31,10 +32,10 @@ contract ProcessApp is AragonApp {
     /**
      * @notice Create a process on the MESG Network
      */
-    function create(address appAddress,address appImplementationAddress, string eventName, string url) external auth(PUBLISH_ROLE) {
+    function create(address appAddress,address appImplementationAddress,string ipfsHash, string eventName, string url) external auth(PUBLISH_ROLE) {
         process.push(
-            Process({createdAt: block.timestamp, appAddress: appAddress, appImplementationAddress: appImplementationAddress, eventName: eventName, url: url, active: true}));
-        emit Created(appAddress, appImplementationAddress, eventName, url);
+            Process({createdAt: block.timestamp, appAddress: appAddress, appImplementationAddress: appImplementationAddress, ipfsHash: ipfsHash, eventName: eventName, url: url, active: true}));
+        emit Created(appAddress, appImplementationAddress, ipfsHash, eventName, url);
     }
 
     /**
@@ -48,12 +49,13 @@ contract ProcessApp is AragonApp {
     function getProcess(uint256 index)
         public
         view
-        returns (uint256 createdAt, address appAddress, address appImplementationAddress, string eventName, string url, bool active)
+        returns (uint256 createdAt, address appAddress, address appImplementationAddress, string ipfsHash, string eventName, string url, bool active)
     {
         return (
             process[index].createdAt,
             process[index].appAddress,
             process[index].appImplementationAddress,
+            process[index].ipfsHash,
             process[index].eventName,
             process[index].url,
             process[index].active
