@@ -1,4 +1,5 @@
 import { process } from '@mesg/compiler'
+import { save } from './ipfs-util'
 
 const compiler = async ({ appAddress, index, url }, eventAbi, eventSignature) => {
   const ethereumHash = 'E3SsgC82X9qT7raRYZffxvSLgQNZNeuJwGdrz9X5Cinu'
@@ -11,7 +12,7 @@ steps:
   eventKey: log
 - type: filter
   conditions: 
-    address: '${appAddress}'
+    address: '${appAddress.toLowerCase()}'
     eventSignature: '${eventSignature}'
 - type: task
   instanceHash: ${ethereumHash}
@@ -42,9 +43,15 @@ steps:
       transactionIndex: {key: transactionIndex}
       blockHash: {key: blockHash}
       blockNumber: {key: blockNumber}
-
   `
-  return process(Buffer.from(template))
+
+  const compile = await process(Buffer.from(template))
+
+  const hash = await save(JSON.stringify(compile))
+
+  console.log(`http://localhost:8080/ipfs/${hash}`)
+
+  return compile
 }
 
 export default compiler
