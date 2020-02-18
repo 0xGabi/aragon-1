@@ -1,0 +1,14 @@
+{
+  "name": "your-package-name",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "@mesg/api": "^0.2.0",
+    "@mesg/compiler": "^0.2.0",
+    "@mesg/service": "^0.1.0",
+    "ipfs-http-client": "^42.0.0",
+    "js-yaml": "^3.13.1",
+    "node-fetch": "^2.6.0",
+    "request": "^2.88.2"
+  }
+}

@@ -1,0 +1,29 @@
+name: 'Service Deploy Process'
+sid: service-deploy-process
+description: "Deploy a process using data from IPFS"
+configuration:
+  env:
+    - IPFS_ENDPOINT=http://ipfs.app.mesg.com:8080/ipfs
+description: 'Description of my service'
+tasks:
+  deploy:
+    name: "Deploy"
+    description: "Automatic deploy process"
+    inputs:
+      ipfsHash:
+        name: "IPFS Hash"
+        description: "Hash of the IPFS"
+        type: String
+    outputs:
+      processHash:
+        name: "Process Hash"
+        description: "Hash of running process"
+        type: String
+  delete:
+    name: "Delete"
+    description: "Delete the process"
+    inputs:
+      processHash:
+        name: "Process Hash"
+        description: "Hash of the process will be deleted"
+        type: String
