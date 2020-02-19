@@ -6,7 +6,7 @@ import { getAllVersions } from '../utils/APM'
 import { encodeEventSignature } from '../utils/Web3'
 import ProcessTemplate from '../utils/processTemplate'
 
-function Sidebar({ opened, close, installedApps }) {
+function Sidebar({ opened, close, installedApps, processLength }) {
   const { api } = useAragonApi()
   const [appSelected, setAppSelected] = useState(-1)
   const [eventSelected, setEventSelected] = useState(-1)
@@ -23,9 +23,7 @@ function Sidebar({ opened, close, installedApps }) {
     }
     const eventAbi = version.abi.find(abi => abi.name === eventsAbi[eventSelected])
     const eventSignature = await encodeEventSignature(eventAbi)
-    const ipfsHash = await ProcessTemplate(app, eventAbi, eventSignature)
-
-    console.log(`http://localhost:8080/ipfs/${ipfsHash}`)
+    const ipfsHash = await ProcessTemplate({ ...app, index: processLength, url: textInput.trim() }, eventAbi, eventSignature)
 
     await api.create(app.appAddress, app.appImplementationAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
 

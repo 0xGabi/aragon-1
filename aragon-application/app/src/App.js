@@ -82,7 +82,12 @@ function App() {
           renderEntry={valueName}
         />
       </Layout>
-      <Sidebar opened={opened} close={close} installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
+      <Sidebar
+        opened={opened}
+        close={close}
+        installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)}
+        processLength={processes.length}
+      />
     </Main>
   )
 }

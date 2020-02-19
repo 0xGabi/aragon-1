@@ -2,8 +2,8 @@ import { process } from '@mesg/compiler'
 import { save } from './ipfs-util'
 
 const compiler = async ({ appAddress, index, url }, eventAbi, eventSignature) => {
-  const ethereumHash = 'E3SsgC82X9qT7raRYZffxvSLgQNZNeuJwGdrz9X5Cinu'
-  const webhookHash = 'Aef2BbWiGTLwkWREvYw6pcwqWvBdXuyWL8pfm8J66Bs6'
+  const ethereumHash = 'AGWRNKybWfdsnSgnu69g9ZezuDQ3wG486QoFaBgGdxz5' // TODO: change the instanceHash to the local service instanceHash
+  const webhookHash = 'Aef2BbWiGTLwkWREvYw6pcwqWvBdXuyWL8pfm8J66Bs6' // TODO: change the instanceHash to the local service instanceHash
   const template = `
 name: ${appAddress}/${index}
 steps:
