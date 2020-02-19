@@ -1,9 +1,10 @@
 const fetch = require('node-fetch')
+
 const base58 = require('@mesg/api/lib/util/base58')
 
 const api = require('./API')
 
-async function deploy({ ipfsHash }) {
+module.exports = async ({ ipfsHash }) => {
   try {
     const res = await fetch(`${process.env.IPFS_ENDPOINT}/${ipfsHash}`)
     const textProcess = await res.text()
@@ -16,10 +17,9 @@ async function deploy({ ipfsHash }) {
     }
 
     return {
-      hash: base58.encode(created.hash)
+      processHash: base58.encode(created.hash)
     }
   } catch (error) {
     throw Error(error.message)
   }
 }
-module.exports = deploy
