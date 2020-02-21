@@ -13,8 +13,6 @@ function Sidebar({ opened, close, installedApps, processLength }) {
   const [eventsAbi, setEventsAbi] = useState([])
   const [textInput, setTextInput] = useState('')
 
-  const appName = installedApps.map(v => v.name)
-
   const handleSubmit = async () => {
     const app = installedApps[appSelected]
     const version = await getAllVersions(app.appId, app.appImplementationAddress)
@@ -25,7 +23,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
     const eventSignature = await encodeEventSignature(eventAbi)
     const ipfsHash = await ProcessTemplate({ ...app, index: processLength, url: textInput.trim() }, eventAbi, eventSignature)
 
-    await api.create(app.appAddress, app.appImplementationAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
+    await api.create(app.appAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
 
     setAppSelected(-1)
     setEventSelected(-1)
@@ -54,7 +52,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
         `}
       >
         <Field label='Application'>
-          <DropDown placeholder='Select an application' items={appName} selected={appSelected} onChange={handleSelectChange} wide />
+          <DropDown placeholder='Select an application' items={installedApps.map(v => v.name)} selected={appSelected} onChange={handleSelectChange} wide />
         </Field>
         <Field label='Events'>
           <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} wide />

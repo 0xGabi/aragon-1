@@ -8,7 +8,6 @@ contract ProcessApp is AragonApp {
     // Events
     event Created(
         address appAddress,
-        address appImplementationAddress,
         string ipfsHash,
         string eventName,
         string url
@@ -18,7 +17,6 @@ contract ProcessApp is AragonApp {
     struct Process {
         uint256 createdAt;
         address appAddress;
-        address appImplementationAddress;
         string ipfsHash;
         string eventName;
         string url;
@@ -41,7 +39,6 @@ contract ProcessApp is AragonApp {
      */
     function create(
         address appAddress,
-        address appImplementationAddress,
         string ipfsHash,
         string eventName,
         string url
@@ -50,7 +47,6 @@ contract ProcessApp is AragonApp {
             Process({
                 createdAt: block.timestamp,
                 appAddress: appAddress,
-                appImplementationAddress: appImplementationAddress,
                 ipfsHash: ipfsHash,
                 eventName: eventName,
                 url: url,
@@ -60,7 +56,6 @@ contract ProcessApp is AragonApp {
         emit MESGProcessCreate(ipfsHash);
         emit Created(
             appAddress,
-            appImplementationAddress,
             ipfsHash,
             eventName,
             url
@@ -82,7 +77,6 @@ contract ProcessApp is AragonApp {
         returns (
             uint256 createdAt,
             address appAddress,
-            address appImplementationAddress,
             string ipfsHash,
             string eventName,
             string url,
@@ -92,7 +86,6 @@ contract ProcessApp is AragonApp {
         return (
             process[index].createdAt,
             process[index].appAddress,
-            process[index].appImplementationAddress,
             process[index].ipfsHash,
             process[index].eventName,
             process[index].url,

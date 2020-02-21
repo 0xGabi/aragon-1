@@ -25,36 +25,6 @@ function App() {
   const open = () => setOpened(true)
   const close = () => setOpened(false)
 
-  const filterApp = addr => {
-    const getApp = installedApps.find(app => app.appAddress.toLowerCase() === addr.toLowerCase())
-    return getApp
-  }
-
-  const disActivate = index => {
-    api.desactivate(index).toPromise()
-  }
-
-  const valueName = ({ createdAt, appAddress, eventName, url, active, index }) => {
-    return [
-      <Tag size='normal' color={active ? 'green' : 'red'} background='transparent' icon={active ? <IconConnection /> : <IconError />} />,
-      <Text size='small'>{createdAt}</Text>,
-      <AppBadge appAddress={appAddress} label={filterApp(appAddress).name} iconSrc={filterApp(appAddress).icon()} identifier={filterApp(appAddress).identifier} />,
-      <Text size='small'>{eventName}</Text>,
-      <Text size='small'>{url}</Text>,
-      <ContextMenu disabled={!active}>
-        <ContextMenuItem onClick={() => disActivate(index)}>
-          <IconRemove />
-          <div
-            css={`
-              width: ${1 * GU}px;
-              padding: ${1 * GU}px ${1 * GU}px;
-            `}
-          />
-          Disabled
-        </ContextMenuItem>
-      </ContextMenu>
-    ]
-  }
   return (
     <Main theme={appearance}>
       <Layout>
@@ -63,23 +33,43 @@ function App() {
           css={`
             border: none;
           `}
-          fields={['Status', { label: 'Created At', align: 'start' }, 'App Address', 'Event Name', { label: 'Url', align: 'start' }, { label: ' ', align: 'end' }]}
+          fields={['Status', { label: 'Created At', align: 'start' }, 'App Address', 'Event Name', { label: 'Webhook Url', align: 'start' }, { label: ' ', align: 'end' }]}
           statusLoading={isSyncing}
-          entries={
-            processes.length !== 0
-              ? processes.map((process, i) => ({
-                  index: i,
-                  createdAt: moment.unix(process.createdAt).format('DD/MM/YY'),
-                  appAddress: process.appAddress,
-                  eventName: process.eventName,
-                  url: process.url,
-                  active: process.active,
-                  appImplementationAddress: process.appImplementationAddress,
-                  ipfsHash: process.ipfsHash
-                }))
-              : []
-          }
-          renderEntry={valueName}
+          entries={processes.map(
+            (process, i) => ({
+              index: i,
+              createdAt: moment.unix(process.createdAt).format('DD/MM/YY'),
+              appAddress: process.appAddress,
+              eventName: process.eventName,
+              url: process.url,
+              active: process.active,
+              appImplementationAddress: process.appImplementationAddress,
+              ipfsHash: process.ipfsHash
+            }),
+            []
+          )}
+          renderEntry={({ createdAt, appAddress, eventName, url, active, index }) => {
+            const app = installedApps.find(app => app.appAddress.toLowerCase() === appAddress.toLowerCase())
+            return [
+              <Tag size='normal' color={active ? 'green' : 'red'} background='transparent' icon={active ? <IconConnection /> : <IconError />} />,
+              <Text size='small'>{createdAt}</Text>,
+              <AppBadge appAddress={appAddress} label={app.name} iconSrc={app.icon()} identifier={app.identifier} />,
+              <Text size='small'>{eventName}</Text>,
+              <Text size='small'>{url}</Text>,
+              <ContextMenu disabled={!active}>
+                <ContextMenuItem onClick={() => api.desactivate(index).toPromise()}>
+                  <IconRemove />
+                  <div
+                    css={`
+                      width: ${1 * GU}px;
+                      padding: ${1 * GU}px ${1 * GU}px;
+                    `}
+                  />
+                  Disabled
+                </ContextMenuItem>
+              </ContextMenu>
+            ]
+          }}
         />
       </Layout>
       <Sidebar

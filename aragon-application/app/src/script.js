@@ -7,17 +7,16 @@ const app = new Aragon()
 app.store(
   async (state, { event }) => {
     const nextState = { ...state }
-
     try {
       switch (event) {
-        case 'Created':
-          return { ...nextState, processes: await getProcess() }
-        case 'Disactivated':
-          return { ...nextState, processes: await getProcess() }
+
         case events.SYNC_STATUS_SYNCING:
           return { ...nextState, isSyncing: true }
         case events.SYNC_STATUS_SYNCED:
           return { ...nextState, isSyncing: false }
+        case 'Created':
+        case 'Disactivated':
+          return { ...nextState, processes: await getProcess() }
         default:
           return state
       }
