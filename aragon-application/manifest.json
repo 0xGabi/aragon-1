@@ -1,16 +1,22 @@
 {
   "name": "MESG",
-  "author": "Placeholder-author",
-  "description": "An application for Aragon",
+  "author": "MESG Foundation",
+  "description": "Create porcess on MESG",
   "details_url": "/meta/details.md",
-  "source_url": "https://<placeholder-repository-url>",
-  "icons": [{
-    "src": "/meta/icon.svg",
-    "sizes": "56x56"
-  }],
-  "screenshots": [{
-    "src": "/meta/screenshot-1.png"
-  }],
+  "source_url": "https://github.com/mesg-foundation/aragon/tree/master",
+  "icons": [
+    {
+      "src": "/meta/icon.svg",
+      "sizes": "56x56"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/meta/screenshot-1.png",
+      "src": "/meta/screenshot-2.png",
+      "src": "/meta/screenshot-3.png"
+    }
+  ],
   "start_url": "/index.html",
   "script": "/script.js"
 }
