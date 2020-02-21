@@ -1,7 +1,14 @@
 pragma solidity ^0.4.24;
 
 import "@aragon/os/contracts/apps/AragonApp.sol";
-import "./IMesgDeployer.sol";
+
+contract MESGProcess {
+    event Created(uint256 index, address owner, string definition);
+    event Destroyed(uint256 index, string definition);
+
+    function create(uint256 index, string memory definition) public;
+    function destroy(uint256 index) public;
+}
 
 contract ProcessApp is AragonApp {
     // Events
@@ -27,7 +34,7 @@ contract ProcessApp is AragonApp {
     // State
     Process[] process;
 
-    IMesgDeployer mesgDeployer = 0xTO_CHANGE;
+    IMESGProcess processDeployer;
 
     /// ACL
     bytes32 public constant PUBLISH_ROLE = keccak256("PUBLISH_ROLE");
@@ -35,6 +42,7 @@ contract ProcessApp is AragonApp {
 
     function initialize() public onlyInit {
         initialized();
+        processDeployer = IMESGProcess(0xCfEB869F69431e42cdB54A4F4f105C19C080A601)
     }
 
     /**
@@ -46,8 +54,8 @@ contract ProcessApp is AragonApp {
         string ipfsHash,
         string eventName,
         string url
-    ) external auth(PUBLISH_ROLE) {
-        IMesgDeployer(mesgDeployer).create(keccak256(appAddress, ipfsHash), ipfsHash);
+    ) external isInitialized auth(PUBLISH_ROLE) {
+        processDeployer.create(0, ipfsHash);
         process.push(
             Process({
                 createdAt: block.timestamp,
@@ -73,7 +81,7 @@ contract ProcessApp is AragonApp {
      */
     function desactivate(uint256 index) external auth(DESACTIVATE_ROLE) {
         process[index].active = false;
-        IMesgDeployer(mesgDeployer).destroy(keccak256(process[index].appAddress, process[index].ipfsHash));
+        MESGProcess(0xCfEB869F69431e42cdB54A4F4f105C19C080A601).destroy(0, process[index].ipfsHash);
         emit Desactivated(index);
     }
 
