@@ -4,13 +4,13 @@ const web3 = new Web3()
 const createAbi = {
   anonymous: false,
   inputs: [
-    { indexed: false, name: 'appAddress', type: 'address' },
-    { indexed: false, name: 'appImplementationAddress', type: 'address' },
-    { indexed: false, name: 'ipfsHash', type: 'string' },
-    { indexed: false, name: 'eventName', type: 'string' },
-    { indexed: false, name: 'url', type: 'string' }
+    {
+      indexed: false,
+      name: 'ipfsHash',
+      type: 'string'
+    }
   ],
-  name: 'Created',
+  name: 'MESGProcessCreate',
   type: 'event'
 }
 
