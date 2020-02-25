@@ -2,9 +2,8 @@ import { SidePanel, Field, DropDown, Button, TextInput } from '@aragon/ui'
 import { useAragonApi } from '@aragon/api-react'
 import React, { useState } from 'react'
 
-import { getAllVersions } from '../utils/APM'
-import { encodeEventSignature } from '../utils/Web3'
 import ProcessTemplate from '../utils/processTemplate'
+import { encodeEventSignature } from '../utils/Web3'
 
 function Sidebar({ opened, close, installedApps, processLength }) {
   const { api } = useAragonApi()
@@ -15,11 +14,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
 
   const handleSubmit = async () => {
     const app = installedApps[appSelected]
-    const version = await getAllVersions(app.appId, app.appImplementationAddress)
-    if (!version) {
-      throw new Error(`cannot find version for ${app.appAddress}`)
-    }
-    const eventAbi = version.abi.find(abi => abi.name === eventsAbi[eventSelected])
+    const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
     const eventSignature = await encodeEventSignature(eventAbi)
     const ipfsHash = await ProcessTemplate({ ...app, index: processLength, url: textInput.trim() }, eventAbi, eventSignature)
 
@@ -35,11 +30,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
   const handleSelectChange = async e => {
     setAppSelected(e)
     const app = installedApps[e]
-    const version = await getAllVersions(app.appId, app.appImplementationAddress)
-    if (!version) {
-      throw new Error(`cannot find version for ${app.appImplementationAddress}`)
-    }
-    const AbiEvent = version.abi.filter(abi => abi.type === 'event').map(event => event.name)
+    const AbiEvent = app.abi.filter(abi => abi.type === 'event').map(event => event.name)
     setEventsAbi(AbiEvent)
     setEventSelected(-1)
   }
@@ -55,7 +46,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
           <DropDown placeholder='Select an application' items={installedApps.map(v => v.name)} selected={appSelected} onChange={handleSelectChange} wide />
         </Field>
         <Field label='Events'>
-          <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} wide />
+          <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} disabled={eventsAbi.length === 0} wide />
         </Field>
         <Field label='Webhook Url'>
           <TextInput
@@ -63,6 +54,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
             onChange={e => {
               setTextInput(e.target.value)
             }}
+            disabled={eventSelected === -1}
             wide
           />
         </Field>
