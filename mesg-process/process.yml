@@ -4,7 +4,7 @@ steps:
     instance:
       src: https://github.com/mesg-foundation/service-ethereum
       env:
-        - PROVIDER_ENDPOINT=ws://docker.for.mac.localhost:8545
+        - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
         - BLOCK_CONFIRMATIONS=0
     eventKey: log
   - type: filter
@@ -14,7 +14,7 @@ steps:
     instance:
       src: https://github.com/mesg-foundation/service-ethereum
       env:
-        - PROVIDER_ENDPOINT=ws://docker.for.mac.localhost:8545
+        - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
         - BLOCK_CONFIRMATIONS=0
     taskKey: decodeLog
     inputs:
