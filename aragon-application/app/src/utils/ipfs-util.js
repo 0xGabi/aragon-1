@@ -1,6 +1,6 @@
 import ipfsAPI from 'ipfs-http-client'
 
-export var ipfs = ipfsAPI('https://ipfs.app.mesg.com:5001')
+export const ipfs = ipfsAPI('https://rpc.ipfs.app.mesg.com')
 
 export async function save(content) {
   for await (const result of ipfs.add(content)) {
