@@ -72,12 +72,7 @@ function App() {
           }}
         />
       </Layout>
-      <Sidebar
-        opened={opened}
-        close={close}
-        installedApps={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)}
-        processLength={processes.length}
-      />
+      <Sidebar opened={opened} close={close} installedAppsWithoutMESG={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
     </Main>
   )
 }

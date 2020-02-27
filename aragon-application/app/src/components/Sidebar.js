@@ -5,19 +5,19 @@ import React, { useState } from 'react'
 import ProcessTemplate from '../utils/processTemplate'
 import { encodeEventSignature } from '../utils/Web3'
 
-function Sidebar({ opened, close, installedApps, processLength }) {
-  const { api } = useAragonApi()
+function Sidebar({ opened, close, installedAppsWithoutMESG }) {
+  const { api, installedApps, currentApp, connectedAccount } = useAragonApi()
   const [appSelected, setAppSelected] = useState(-1)
   const [eventSelected, setEventSelected] = useState(-1)
   const [eventsAbi, setEventsAbi] = useState([])
   const [textInput, setTextInput] = useState('')
 
   const handleSubmit = async () => {
-    const app = installedApps[appSelected]
+    const app = installedAppsWithoutMESG[appSelected]
     const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
     const eventSignature = await encodeEventSignature(eventAbi)
-
-    const ipfsHash = await ProcessTemplate({ ...app, index: processLength, url: textInput.trim() }, eventAbi, eventSignature)
+    const MESG = installedApps.find(app => app.name === currentApp.name)
+    const ipfsHash = await ProcessTemplate({ ...app, mesgAddress: MESG.appAddress, url: textInput.trim(), connectedAccount }, eventAbi, eventSignature)
 
     await api.create(app.appAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
 
@@ -30,7 +30,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
 
   const handleSelectChange = async e => {
     setAppSelected(e)
-    const app = installedApps[e]
+    const app = installedAppsWithoutMESG[e]
     const AbiEvent = app.abi.filter(abi => abi.type === 'event').map(event => event.name)
     setEventsAbi(AbiEvent)
     setEventSelected(-1)
@@ -44,7 +44,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
         `}
       >
         <Field label='Application'>
-          <DropDown placeholder='Select an application' items={installedApps.map(v => v.name)} selected={appSelected} onChange={handleSelectChange} wide />
+          <DropDown placeholder='Select an application' items={installedAppsWithoutMESG.map(v => v.name)} selected={appSelected} onChange={handleSelectChange} wide />
         </Field>
         <Field label='Events'>
           <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} disabled={eventsAbi.length === 0} wide />
