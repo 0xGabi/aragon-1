@@ -17,11 +17,9 @@ function Sidebar({ opened, close, installedApps, processLength }) {
     const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
     const eventSignature = await encodeEventSignature(eventAbi)
 
-    await api.create(app.appAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
-
     const ipfsHash = await ProcessTemplate({ ...app, index: processLength, url: textInput.trim() }, eventAbi, eventSignature)
 
-    console.log(`ipfsHash: ${ipfsHash}`)
+    await api.create(app.appAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
 
     setAppSelected(-1)
     setEventSelected(-1)
@@ -39,7 +37,7 @@ function Sidebar({ opened, close, installedApps, processLength }) {
   }
 
   return (
-    <SidePanel title='Create Process' opened={opened} onClose={close}>
+    <SidePanel title='Create Connection' opened={opened} onClose={close}>
       <div
         css={`
           margin-top: 20px;

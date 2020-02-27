@@ -28,7 +28,7 @@ function App() {
   return (
     <Main theme={appearance}>
       <Layout>
-        <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Process' onClick={open} />} />
+        <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Connection' onClick={open} />} />
         <DataView
           css={`
             border: none;
