@@ -1,6 +1,6 @@
 # Aragon MESG Application
 
-## Usage
+## Aragon MESG Application on your local computer.
 
 1. Running MESG Service This service requires [MESG SDK](https://github.com/mesg-foundation/engine) to be installed first. You can install MESG SDK by running the following command or [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
 
@@ -32,11 +32,43 @@ mesg-cli service:create "$(mesg-cli service:compile https://github.com/mesg-foun
 mesg-cli service:start webhook
 ```
 
-4. You can start the MESG dApp on a local Ethereum devchain as follows the command:
+4. Create and start [MESG service process.deployer](https://github.com/mesg-foundation/service-process-deployer) by running the following command.
 
-Replace `instanceHash` as local services are running as [file](app/src/utils/processTemplate.js)
+```sh
+mesg-cli service:create "$(mesg-cli service:compile https://github.com/mesg-foundation/service-process-deployer)"
+```
 
-Replace `provider` as local network as [file](app/src/utils/processTemplate.js)
+**Start service deployer:**
+
+```sh
+mesg-cli service:start process.deployer --env IPFS_ENDPOINT=$IPFS_ENDPOINT
+```
+
+5. Create and deploy MESG process by running the following command.
+
+Replace service deployer hash into [MESG PROCESS](../mesg-process/process.yml)
+
+```yml
+  - type: task
+    instanceHash: TO_REPLACE
+    taskKey: deploy
+    inputs:
+      ipfsHash: { key: decodedData.ipfsHash }
+```
+
+```sh
+$ cd .. && cd mesg-process
+$ npm install
+$ source .env
+$ mesg-cli process:create "$(mesg-cli process:compile process.yml --env ENCODE_EVENT_SIGNATURE=$ENCODE_EVENT_SIGNATURE --env IPFS_ENDPOINT=$IPFS_ENDPOINT --dev)"
+```
+
+
+6. You can start the MESG dApp on a local Ethereum devchain as follows the command:
+
+Replace `instanceHash` with local services hash are running into a [file](app/src/utils/processTemplate.js)
+
+Replace `provider` as local network hash into a [file](app/src/utils/processTemplate.js)
 
 ```sh
 git clone https://github.com/mesg-foundation/aragon.git
@@ -62,22 +94,3 @@ $ npx dao acl create <dao-name>.aragonid.eth <mesg-addr> PUBLISH_ROLE <your-addr
 $ npx dao acl create <dao-name>.aragonid.eth <mesg-addr> DESACTIVATE_ROLE <your-addr> <your-addr> --environment aragon:rinkeby
 # -> You may vote all this permission changes
 ```
-
-### npm Scripts
-
-- **start** or **start:ipfs**: Runs your app inside a DAO served from IPFS
-- **start:http**: Runs your app inside a DAO served with HTTP (hot reloading)
-- **start:ipfs:template**: Creates a DAO with the [Template](https://github.com/mesg-foundation/aragon/blob/aragon-testnet-abi/aragon-application/contracts/Template.sol) and serves the app from IPFS
-- **start:http:template**: Creates a DAO with the [Template](https://github.com/mesg-foundation/aragon/blob/aragon-testnet-abi/aragon-application/contracts/Template.sol) and serves the app with HTTP (hot reloading)
-- **prepare**: Installs dependencies of the front-end
-- **start:app**: Starts a development server for your app
-- **compile**: Compiles the smart contracts
-- **build**: Builds the front-end and background script
-- **test**: Runs tests for the contracts
-- **publish:patch**: Releases a patch version to aragonPM (only frontend/content changes allowed)
-- **publish:minor**: Releases a minor version to aragonPM (only frontend/content changes allowed)
-- **publish:major**: Releases a major version to aragonPM (frontend **and** contract changes)
-- **versions**: Checks the currently installed versions of the app
-- **lint**: Checks the app and the contracts for linting errors
-- **lint:fix**: Fixes the lint errors that can be resolved automatically
-- **coverage**: Runs the tests for the contracts and creates a report
