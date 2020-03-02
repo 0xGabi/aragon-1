@@ -35,6 +35,7 @@ mesg-cli service:start webhook
 4. You can start the MESG dApp on a local Ethereum devchain as follows the command:
 
 Replace `instanceHash` as local services are running as [file](app/src/utils/processTemplate.js)
+
 Replace `provider` as local network as [file](app/src/utils/processTemplate.js)
 
 ```sh
