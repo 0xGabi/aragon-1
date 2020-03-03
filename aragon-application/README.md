@@ -46,11 +46,27 @@ mesg-cli service:start process.deployer --env IPFS_ENDPOINT=$IPFS_ENDPOINT
 
 5. Create and deploy MESG process by running the following command.
 
+Replace service ethereum hash into [MESG PROCESS](../mesg-process/process.yml)
+
+```yml
+  ...
+  - type: trigger
+    instanceHash: <TO_REPLACE_SERVICE_ETHEREUM_LOCAL_HASH>
+    eventKey: log
+  - type: filter
+    conditions:
+      eventSignature: $(env:ENCODE_EVENT_SIGNATURE)
+  - type: task
+    instanceHash: <TO_REPLACE_SERVICE_ETHEREUM_LOCAL_HASH>
+    taskKey: decodeLog
+  ...
+```
+
 Replace service deployer hash into [MESG PROCESS](../mesg-process/process.yml)
 
 ```yml
   - type: task
-    instanceHash: TO_REPLACE
+    instanceHash: <TO_REPLACE_SERVICE_DEPLOYER_LOCAL_HASH>
     taskKey: deploy
     inputs:
       ipfsHash: { key: decodedData.ipfsHash }
@@ -66,9 +82,11 @@ $ mesg-cli process:create "$(mesg-cli process:compile process.yml --env ENCODE_E
 
 6. You can start the MESG dApp on a local Ethereum devchain as follows the command:
 
-Replace `instanceHash` with local services hash are running into a [file](app/src/utils/processTemplate.js)
+Before run command check and replace: 
 
-Replace `provider` as local network hash into a [file](app/src/utils/processTemplate.js)
+1. `instanceHash` with local services hash are running into a [file](app/src/utils/processTemplate.js)
+
+2. `provider` as local network hash into a [file](app/src/utils/processTemplate.js)
 
 ```sh
 git clone https://github.com/mesg-foundation/aragon.git
