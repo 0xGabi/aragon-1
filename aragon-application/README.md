@@ -2,97 +2,88 @@
 
 ## Aragon MESG Application on your local computer.
 
-1. Running MESG Service This service requires [MESG SDK](https://github.com/mesg-foundation/engine) to be installed first. You can install MESG SDK by running the following command or [follow the installation guide](https://docs.mesg.com/guide/start-here/installation.html).
+1. You need to start [Mesg process](../mesg-process/README.md) before running an application.
 
-```bash
-npm install -g @mesg/cli
-```
+2. You can start the MESG dApp on a local Ethereum devchain by following:
 
-2. Create and start [MESG service ethereum](https://github.com/mesg-foundation/service-ethereum) by running the following command.
+**Download source:**
 
 ```sh
-mesg-cli service:create "$(mesg-cli service:compile https://github.com/mesg-foundation/service-ethereum)"
-```
-
-**Start service ethereum:**
-
-```sh
-mesg-cli service:start com.mesg.ethereum --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT
-```
-
-3. Create and start [MESG service webhook](https://github.com/mesg-foundation/service-webhook) by running the following command.
-
-```sh
-mesg-cli service:create "$(mesg-cli service:compile https://github.com/mesg-foundation/service-webhook)"
-```
-
-**Start service webhook:**
-
-```sh
-mesg-cli service:start webhook
-```
-
-4. Create and start [MESG service process.deployer](https://github.com/mesg-foundation/service-process-deployer) by running the following command.
-
-```sh
-mesg-cli service:create "$(mesg-cli service:compile https://github.com/mesg-foundation/service-process-deployer)"
-```
-
-**Start service deployer:**
-
-```sh
-mesg-cli service:start process.deployer --env IPFS_ENDPOINT=$IPFS_ENDPOINT
-```
-
-5. Create and deploy MESG process by running the following command.
-
-Replace service ethereum hash into [MESG PROCESS](../mesg-process/process.yml)
-
-```yml
-  ...
-  - type: trigger
-    instanceHash: <TO_REPLACE_SERVICE_ETHEREUM_LOCAL_HASH>
-    eventKey: log
-  - type: filter
-    conditions:
-      eventSignature: $(env:ENCODE_EVENT_SIGNATURE)
-  - type: task
-    instanceHash: <TO_REPLACE_SERVICE_ETHEREUM_LOCAL_HASH>
-    taskKey: decodeLog
-  ...
-```
-
-Replace service deployer hash into [MESG PROCESS](../mesg-process/process.yml)
-
-```yml
-  - type: task
-    instanceHash: <TO_REPLACE_SERVICE_DEPLOYER_LOCAL_HASH>
-    taskKey: deploy
-    inputs:
-      ipfsHash: { key: decodedData.ipfsHash }
-```
-
-```sh
-$ cd .. && cd mesg-process
+$ git clone https://github.com/mesg-foundation/aragon.git
+$ cd aragon/aragon-application
 $ npm install
-$ source .env
-$ mesg-cli process:create "$(mesg-cli process:compile process.yml --env ENCODE_EVENT_SIGNATURE=$ENCODE_EVENT_SIGNATURE --env IPFS_ENDPOINT=$IPFS_ENDPOINT --dev)"
 ```
 
+**_Before start application check and replace:_**
 
-6. You can start the MESG dApp on a local Ethereum devchain as follows the command:
+[Process Template](app/src/utils/processTemplate.js) File:
 
-Before run command check and replace: 
+```js
+const template = `
+name: ${name}-${mesgAddress}-${eventAbi.name}-${connectedAccount}
+steps:
+- type: trigger
+  instance:
+    src: https://github.com/mesg-foundation/service-ethereum
+    env:
+      - PROVIDER_ENDPOINT=https://rinkeby.infura.io/v3/<PROJECT_ID>
+  eventKey: log
+- type: filter
+  conditions: 
+    address: '${appAddress.toLowerCase()}'
+    eventSignature: '${eventSignature}'
+- type: task
+  instance:
+    src: https://github.com/mesg-foundation/service-ethereum
+    env:
+      - PROVIDER_ENDPOINT=https://rinkeby.infura.io/v3/<PROJECT_ID>
+  taskKey: decodeLog
+  inputs:
+    eventAbi: ${JSON.stringify(eventAbi)}
+    address: {key: address}
+    data: {key: data}
+    topics: {key: topics}
+    logIndex: {key: logIndex}
+    transactionHash: {key: transactionHash}
+    transactionIndex: {key: transactionIndex}
+    blockHash: {key: blockHash}
+    blockNumber: {key: blockNumber}
+- type: task
+  instance:
+    src: https://github.com/mesg-foundation/service-webhook
+  taskKey: call
+  inputs:
+    url: ${url}
+    data:
+      decodedData: {key: decodedData}
+      address: {key: address}
+      eventSignature: {key: eventSignature}
+      data: {key: data}
+      topics: {key: topics}
+      logIndex: {key: logIndex}
+      transactionHash: {key: transactionHash}
+      transactionIndex: {key: transactionIndex}
+      blockHash: {key: blockHash}
+      blockNumber: {key: blockNumber}
+  `
+```
 
-1. `instanceHash` with local services hash are running into a [file](app/src/utils/processTemplate.js)
+[IPFS](app/src/utils/ipfs-util.js) File:
 
-2. `provider` as local network hash into a [file](app/src/utils/processTemplate.js)
+```js
+export const ipfs = ipfsAPI('<REPLCE IPFS ENDPOINT>')
+```
+
+**Start application**
 
 ```sh
-git clone https://github.com/mesg-foundation/aragon.git
-cd aragon/aragon-application
-npm install
-npm start or npm start:ipfs:template
+$ npm start
+```
+
+**_or_**
+
+```sh
+npm start:ipfs:template
 ```
 
 ## Installing the MESG dApp on a Rinkeby DAO
