@@ -2,20 +2,24 @@ import { process } from '@mesg/compiler'
 import { save } from './ipfs-util'
 
 const compiler = async ({ appAddress, name, mesgAddress, url, connectedAccount }, eventAbi, eventSignature) => {
-  const ethereumHash = '6d4MZPQR9MTcCN8sHAu2Vqb4yuWki7t2ktnFALt7x6Xg'
-  const webhookHash = 'E2oGXehaZqrX1fSPTSMDzMP7D6GmBpVNr2wZCyj8cfXE'
   const template = `
 name: ${name}-${mesgAddress}-${eventAbi.name}-${connectedAccount}
 steps:
 - type: trigger
-  instanceHash: ${ethereumHash}
+  instance:
+    src: https://github.com/mesg-foundation/service-ethereum
+    env:
+      - PROVIDER_ENDPOINT=$(env:${process.env.PROVIDER_ENDPOINT})
   eventKey: log
 - type: filter
   conditions: 
     address: '${appAddress.toLowerCase()}'
     eventSignature: '${eventSignature}'
 - type: task
-  instanceHash: ${ethereumHash}
+  instance:
+    src: https://github.com/mesg-foundation/service-ethereum
+    env:
+      - PROVIDER_ENDPOINT=$(env:${process.env.PROVIDER_ENDPOINT})
   taskKey: decodeLog
   inputs:
     eventAbi: ${JSON.stringify(eventAbi)}
@@ -28,7 +32,8 @@ steps:
     blockHash: {key: blockHash}
     blockNumber: {key: blockNumber}
 - type: task
-  instanceHash: ${webhookHash}
+  instance:
+    src: https://github.com/mesg-foundation/service-webhook
   taskKey: call
   inputs:
     url: ${url}
