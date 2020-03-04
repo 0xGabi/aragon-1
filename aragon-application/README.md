@@ -1,14 +1,8 @@
 # Aragon MESG Application
 
-## Aragon MESG Application on your local computer.
+## Aragon MESG Application on your local computer
 
-1. You need to start Mesg process
-
-```sh
-$ mesg-cli process:dev ../mesg-process/process.yml --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT --env ENCODE_EVENT_SIGNATURE=$ENCODE_EVENT_SIGNATURE --env IPFS_ENDPOINT=$IPFS_ENDPOINT
-```
-
-2. You can start the MESG dApp on a local Ethereum devchain by following:
+You can start the MESG dApp on a local Ethereum devchain by following:
 
 ### Download source
 
