@@ -44,7 +44,14 @@ function Sidebar({ opened, close, installedAppsWithoutMESG }) {
         `}
       >
         <Field label='Application'>
-          <DropDown placeholder='Select an application' items={installedAppsWithoutMESG.map(v => v.name)} selected={appSelected} onChange={handleSelectChange} wide />
+          <DropDown
+            placeholder='Select an application'
+            items={installedAppsWithoutMESG.map(v => v.name)}
+            selected={appSelected}
+            onChange={handleSelectChange}
+            wide
+            disabled={installedAppsWithoutMESG.length === 0}
+          />
         </Field>
         <Field label='Events'>
           <DropDown placeholder='Select an event' items={eventsAbi} selected={eventSelected} onChange={setEventSelected} disabled={eventsAbi.length === 0} wide />

@@ -6,20 +6,14 @@ const compiler = async ({ appAddress, name, mesgAddress, url, connectedAccount }
 name: ${name}-${mesgAddress}-${eventAbi.name}-${connectedAccount}
 steps:
 - type: trigger
-  instance:
-    src: https://github.com/mesg-foundation/service-ethereum
-    env:
-      - PROVIDER_ENDPOINT=$(env:${process.env.PROVIDER_ENDPOINT})
+  instanceHash: ${process.env.ETHEREUM_HASH}
   eventKey: log
 - type: filter
   conditions: 
     address: '${appAddress.toLowerCase()}'
     eventSignature: '${eventSignature}'
 - type: task
-  instance:
-    src: https://github.com/mesg-foundation/service-ethereum
-    env:
-      - PROVIDER_ENDPOINT=$(env:${process.env.PROVIDER_ENDPOINT})
+  instanceHash: ${process.env.ETHEREUM_HASH}
   taskKey: decodeLog
   inputs:
     eventAbi: ${JSON.stringify(eventAbi)}
@@ -32,8 +26,7 @@ steps:
     blockHash: {key: blockHash}
     blockNumber: {key: blockNumber}
 - type: task
-  instance:
-    src: https://github.com/mesg-foundation/service-webhook
+  instanceHash: ${process.env.WEBHOOK_HASH}
   taskKey: call
   inputs:
     url: ${url}
