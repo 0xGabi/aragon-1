@@ -1,53 +1,10 @@
-# Milestone #1: backend application connecting Aragon DAOs to a webhook connector
-
-## Architecture
-
-```ascii
-
-+------------+                                +-------------+
-|            |                                |             |
-| Aragon DAO |                                |   Webhook   |
-|            |                                |             |
-+-----+------+                                +------+------+
-      |                                              ^
-      |                                              |
-    listen                                        trigger
-      |                                              |
-      v                                              |
-+------------+                                +-------------+
-|            |                                |             |
-|  Ethereum  |                                |   Webhook   |
-|  services  |                                |   service   |
-|            |                                |             |
-+-----+------+                                +------+------+
-      |                                              ^
-      |                                              |
-      |                                              |
-    event                                          call
-      |             +------------------+             |
-      |             |                  |             |
-      +------------>+     Process      +-------------+
-                    |                  |
-                    +------------------+
-
-```
-
-- The Ethereum service source code is available here: https://github.com/mesg-foundation/service-ethereum-contract.
-- The Webhook service source code is available here: https://github.com/mesg-foundation/service-webhook
-
-## Step by step explanation
-
-1. Multiple MESG Ethereum services are running and actively listening for events from specific applications of an Aragon DAO.
-2. When an Ethereum event is detected, the service emits it to the MESG Engine.
-3. If the event matches a MESG Process, the process get trigger.
-4. In this case, the process executes the task `call` of the Webhook service.
-5. The Webhook service creates a HTTP request and executes it.
+# Milestone #2: Connect events of your organization to a webhook
 
 ## Demo
 
 Check out the demo video:
 
-[![Demo: Synchronize any Aragon event to a webhook](http://img.youtube.com/vi/Mji0ee1l4z8/0.jpg)](http://www.youtube.com/watch?v=Mji0ee1l4z8 "Demo: Synchronize any Aragon event to a webhook")
+[![Demo: Synchronize any Aragon event to a webhook](https://img.youtube.com/vi/_yiPCCBV3pw/0.jpg)](https://www.youtube.com/watch?v=_yiPCCBV3pw "Demo: Synchronize any Aragon event to a webhook")
 
 Source: https://www.youtube.com/watch?v=Mji0ee1l4z8
 
