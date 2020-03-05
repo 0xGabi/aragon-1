@@ -4,7 +4,7 @@
 
 Check out the demo video:
 
-[![Demo: Connect your DAO events to any webhook](https://img.youtube.com/vi/_yiPCCBV3pw/0.jpg)](https://www.youtube.com/watch?v=_yiPCCBV3pw "Demo: Connect your DAO events to any webhook")
+[![Demo: Connect your DAO events to any webhook](https://img.youtube.com/vi/MctlHrLSm70/0.jpg)](https://www.youtube.com/watch?v=MctlHrLSm70 "Demo: Connect your DAO events to any webhook")
 
 
 ## Installing the MESG dApp on a Rinkeby DAO
