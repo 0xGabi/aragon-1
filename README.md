@@ -57,3 +57,5 @@ You need to replace the `...` by the right value.
 $ npm install
 $ npm start
 ```
+
+Make sur to also run the [process deployer](process/deployer/README.md) in order to automatically run the processes from your local node.
