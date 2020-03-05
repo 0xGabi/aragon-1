@@ -1,2 +1,9 @@
+node_modules
+build
+.cache
+dist
+ipfs.cmd
+coverage.json
+coverage
 .env
 *-abi.json
