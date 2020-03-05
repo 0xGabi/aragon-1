@@ -24,5 +24,5 @@ You need to replace the `...` by the right value.
 ```sh
 $ npm install
 $ source .env
-$ mesg-cli process:dev process.yml --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT --env ENCODE_EVENT_SIGNATURE=$ENCODE_EVENT_SIGNATURE --env IPFS_ENDPOINT=$IPFS_ENDPOINT
+$ mesg-cli process:dev process.yml --env PROVIDER_ENDPOINT=$PROVIDER_ENDPOINT --env ENCODE_EVENT_SIGNATURE=$ENCODE_EVENT_SIGNATURE --env IPFS_GATEWAY_ENDPOINT=$IPFS_GATEWAY_ENDPOINT
 ```

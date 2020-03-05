@@ -29,7 +29,7 @@ steps:
     instance:
       src: https://github.com/mesg-foundation/service-process-deployer
       env:
-        - IPFS_ENDPOINT=$(env:IPFS_ENDPOINT)
+        - IPFS_GATEWAY_ENDPOINT=$(env:IPFS_GATEWAY_ENDPOINT)
     taskKey: deploy
     inputs:
       ipfsHash: { key: decodedData.ipfsHash }
