@@ -5,6 +5,9 @@ import React, { useState } from 'react'
 import ProcessTemplate from '../utils/processTemplate'
 import { encodeEventSignature } from '../utils/Web3'
 
+// To remove when upload to real network
+import { getEventAbi } from '../utils/APM'
+
 function Sidebar({ opened, close, installedAppsWithoutMESG }) {
   const { api, installedApps, currentApp, connectedAccount } = useAragonApi()
   const [appSelected, setAppSelected] = useState(-1)
@@ -14,7 +17,12 @@ function Sidebar({ opened, close, installedAppsWithoutMESG }) {
 
   const handleSubmit = async () => {
     const app = installedAppsWithoutMESG[appSelected]
-    const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
+
+    /* To remove when upload to real network */
+    const eventAbi = (await getEventAbi(app.appId, app.appImplementationAddress)).find(abi => abi.name === eventsAbi[eventSelected])
+
+    // const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
+
     const eventSignature = await encodeEventSignature(eventAbi)
     const MESG = installedApps.find(app => app.name === currentApp.name)
     const ipfsHash = await ProcessTemplate({ ...app, mesgAddress: MESG.appAddress, url: textInput.trim(), connectedAccount }, eventAbi, eventSignature)
@@ -31,7 +39,11 @@ function Sidebar({ opened, close, installedAppsWithoutMESG }) {
   const handleSelectChange = async e => {
     setAppSelected(e)
     const app = installedAppsWithoutMESG[e]
-    const AbiEvent = app.abi.filter(abi => abi.type === 'event').map(event => event.name)
+
+    /* To remove when upload to real network */
+    const AbiEvent = (await getEventAbi(app.appId, app.appImplementationAddress)).map(event => event.name)
+
+    // const AbiEvent = app.abi.filter(abi => abi.type === 'event').map(event => event.name)
     setEventsAbi(AbiEvent)
     setEventSelected(-1)
   }
