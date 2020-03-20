@@ -19,15 +19,15 @@ function Sidebar({ opened, close, installedAppsWithoutMESG }) {
     const app = installedAppsWithoutMESG[appSelected]
 
     /* To remove when upload to real network */
-    const eventAbi = (await getEventAbi(app.appId, app.appImplementationAddress)).find(abi => abi.name === eventsAbi[eventSelected])
+    // const eventAbi = (await getEventAbi(app.appId, app.appImplementationAddress)).find(abi => abi.name === eventsAbi[eventSelected])
 
     // const eventAbi = app.abi.find(abi => abi.name === eventsAbi[eventSelected])
 
-    const eventSignature = await encodeEventSignature(eventAbi)
-    const MESG = installedApps.find(app => app.name === currentApp.name)
-    const ipfsHash = await ProcessTemplate({ ...app, mesgAddress: MESG.appAddress, url: textInput.trim(), connectedAccount }, eventAbi, eventSignature)
+    // const eventSignature = await encodeEventSignature(eventAbi)
+    // const MESG = installedApps.find(app => app.name === currentApp.name)
+    // const ipfsHash = await ProcessTemplate({ ...app, mesgAddress: MESG.appAddress, url: textInput.trim(), connectedAccount }, eventAbi, eventSignature)
 
-    await api.create(app.appAddress, ipfsHash, eventsAbi[eventSelected], textInput.trim()).toPromise()
+    await api.create(app.appAddress, 'fskjdhfskjhgskfjkjfgsdfl', eventsAbi[eventSelected], textInput.trim()).toPromise()
 
     setAppSelected(-1)
     setEventSelected(-1)
