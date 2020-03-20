@@ -53,7 +53,7 @@ async function initialize(data) {
             return { ...nextState, isSyncing: false }
           case 'Created':
             return { ...nextState, processes: await getProcessUpdate() }
-          case 'Disactivated':
+          case 'Desactivated':
             return { ...nextState, processes: await getProcessUpdate() }
           default:
             return state
