@@ -1,80 +1,71 @@
-import { useAragonApi, useGuiStyle } from '@aragon/api-react'
-import moment from 'moment'
-import React, { useState } from 'react'
+import { Button, Header, Main, SyncIndicator, Layout, EmptyStateCard } from '@aragon/ui'
+import { useAragonApi } from '@aragon/api-react'
+import React, { Component, Fragment } from 'react'
 
-import { AppBadge, Button, Header, Main, SyncIndicator, DataView, Text, Tag, Layout, ContextMenu, ContextMenuItem, IconConnection, IconError, IconRemove, GU } from '@aragon/ui'
+import ConnectionLayout from './screens/ConnectionLayout'
+import PanelConnection from './components/AppConnection/PanelConnection'
 
-import Sidebar from './components/Sidebar'
-
-function App() {
-  const { api, appState, currentApp, installedApps } = useAragonApi()
-  const { appearance } = useGuiStyle()
-  const [opened, setOpened] = useState(false)
-  const { processes, isSyncing } = appState
-
-  if (isSyncing) {
-    return (
-      <Main theme={appearance}>
-        <Layout>
-          <SyncIndicator />
-        </Layout>
-      </Main>
-    )
+class App extends Component {
+  static defaultProps = {
+    isSyncing: true
   }
 
-  const open = () => setOpened(true)
-  const close = () => setOpened(false)
+  state = {
+    newConnectionOpen: false
+  }
 
+  handleNewTransferOpen = () => {
+    this.setState({ newConnectionOpen: true })
+  }
+
+  handleNewTransferClose = () => {
+    this.setState({ newConnectionOpen: false })
+  }
+
+  render() {
+    const { appState, installedApps, isSyncing, currentApp } = this.props
+    const { processes } = appState
+    const { newConnectionOpen } = this.state
+
+    this.handleNewTransferOpen = this.handleNewTransferOpen.bind(this)
+    this.handleNewTransferClose = this.handleNewTransferClose.bind(this)
+
+    return (
+      <Fragment>
+        <Layout>
+          {isSyncing && <SyncIndicator />}
+          {processes.length !== 0 ? (
+            <Fragment>
+              <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Connection' onClick={this.handleNewTransferOpen} />} />
+              <ConnectionLayout appState={appState} />
+            </Fragment>
+          ) : (
+            <div
+              css={`
+                height: 100vh;
+                display: flex;
+                -webkit-box-align: center;
+                align-items: center;
+                -webkit-box-pack: center;
+                justify-content: center;
+              `}
+            >
+              <EmptyStateCard text='No connection here!' action={<Button onClick={this.handleNewTransferOpen}>Create Connection</Button>} />
+            </div>
+          )}
+        </Layout>
+        <PanelConnection opened={newConnectionOpen} onClose={this.handleNewTransferClose} installedApps={installedApps} currentApp={currentApp} />
+      </Fragment>
+    )
+  }
+}
+
+export default () => {
+  const { appState, installedApps, guiStyle } = useAragonApi()
+  const { appearance } = guiStyle
   return (
     <Main theme={appearance}>
-      <Layout>
-        <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Connection' onClick={open} />} />
-        <DataView
-          css={`
-            border: none;
-          `}
-          fields={['Status', { label: 'Created At', align: 'start' }, 'App Address', 'Event Name', { label: 'Webhook Url', align: 'start' }, { label: ' ', align: 'end' }]}
-          statusLoading={isSyncing}
-          entries={processes.map(
-            (process, i) => ({
-              index: i,
-              createdAt: moment.unix(process.createdAt).format('DD/MM/YY'),
-              appAddress: process.appAddress,
-              eventName: process.eventName,
-              url: process.url,
-              active: process.active,
-              appImplementationAddress: process.appImplementationAddress,
-              ipfsHash: process.ipfsHash
-            }),
-            []
-          )}
-          renderEntry={({ createdAt, appAddress, eventName, url, active, index }) => {
-            const app = installedApps.find(app => app.appAddress.toLowerCase() === appAddress.toLowerCase())
-            return [
-              <Tag size='normal' color={active ? 'green' : 'red'} background='transparent' icon={active ? <IconConnection /> : <IconError />} />,
-              <Text size='small'>{createdAt}</Text>,
-              <AppBadge appAddress={appAddress} label={app.name} iconSrc={app.icon()} identifier={app.identifier} />,
-              <Text size='small'>{eventName}</Text>,
-              <Text size='small'>{url}</Text>,
-              <ContextMenu disabled={!active}>
-                <ContextMenuItem onClick={() => api.desactivate(index).toPromise()}>
-                  <IconRemove />
-                  <div
-                    css={`
-                      width: ${1 * GU}px;
-                      padding: ${1 * GU}px ${1 * GU}px;
-                    `}
-                  />
-                  Disabled
-                </ContextMenuItem>
-              </ContextMenu>
-            ]
-          }}
-        />
-      </Layout>
-      <Sidebar opened={opened} close={close} installedAppsWithoutMESG={installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp.name)} />
+      <App appState={appState} isSyncing={appState.isSyncing} installedApps={installedApps} />
     </Main>
   )
 }
-
-export default App
