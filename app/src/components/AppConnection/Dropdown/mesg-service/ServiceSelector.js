@@ -5,7 +5,8 @@ class ServiceSelector extends Component {
   static defaultProps = {
     onChange: () => {},
     services: [],
-    label: 'MESG Services'
+    label: 'MESG Services',
+    disabled: true
   }
 
   handleChange = index => {
@@ -19,16 +20,16 @@ class ServiceSelector extends Component {
   }
 
   getServicesName() {
-    return this.props.services, map(service => service.name)
+    return this.props.services.map(service => service.name)
   }
 
   render() {
-    const { label, selectedIndex } = this.props
+    const { label, selectedIndex, disabled } = this.props
     const items = this.getServicesName()
     return (
       <Fragment>
         <Field label={label}>
-          <DropDown header='MESG Services' items={items} selected={selectedIndex} onChange={this.handleChange} required wide />
+          <DropDown header='MESG Services' items={items} selected={selectedIndex} onChange={this.handleChange} disabled={disabled} required wide />
         </Field>
       </Fragment>
     )

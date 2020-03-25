@@ -25,8 +25,9 @@ function AppSelectorInstance({ name, icon }) {
   )
 }
 
-const Icon = styled.img.attrs({ alt: '', width: '16', height: '16' })`
+const Icon = styled.img.attrs({ alt: '', width: '25', height: '25' })`
   margin-right: ${1 * GU}px;
+  border-radius: 3px;
 `
 
 export default AppSelectorInstance

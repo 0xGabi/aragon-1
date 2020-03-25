@@ -5,7 +5,8 @@ class EventsSelector extends Component {
   static defaultProps = {
     onChange: () => {},
     abi: [],
-    label: 'Events'
+    label: 'Events',
+    disabled: true
   }
 
   handleChange = index => {
@@ -23,12 +24,12 @@ class EventsSelector extends Component {
   }
 
   render() {
-    const { label, selectedIndex } = this.props
+    const { label, selectedIndex,disabled } = this.props
     const items = this.getEventsName()
     return (
       <Fragment>
         <Field label={label}>
-          <DropDown header='Application Events' items={items} selected={selectedIndex} onChange={this.handleChange} required wide />
+          <DropDown header='Application Events' items={items} selected={selectedIndex} onChange={this.handleChange} disabled={disabled} required wide />
         </Field>
       </Fragment>
     )
