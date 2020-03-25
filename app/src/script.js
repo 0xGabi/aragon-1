@@ -35,7 +35,7 @@ const call = () =>
       return initialize({ size, processList })
     }
     console.log(`Can't get processList because size is ${size}`)
-    return initialize({})
+    return initialize([])
   })
 
 call()

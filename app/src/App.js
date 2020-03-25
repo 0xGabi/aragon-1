@@ -23,7 +23,7 @@ class App extends Component {
   }
 
   render() {
-    const { appState, installedApps, isSyncing, currentApp } = this.props
+    const { appState, installedApps, isSyncing, api, currentApp } = this.props
     const { processes } = appState
     const { newConnectionOpen } = this.state
 
@@ -37,7 +37,13 @@ class App extends Component {
           {processes.length !== 0 ? (
             <Fragment>
               <Header primary='Connections' secondary={<Button mode='strong' size='medium' label='Create Connection' onClick={this.handleNewTransferOpen} />} />
-              <ConnectionLayout appState={appState} />
+              <div
+                css={`
+                  margin-top: 10px;
+                `}
+              >
+                <ConnectionLayout appState={appState} installedApps={installedApps} />
+              </div>
             </Fragment>
           ) : (
             <div
@@ -54,18 +60,19 @@ class App extends Component {
             </div>
           )}
         </Layout>
-        <PanelConnection opened={newConnectionOpen} onClose={this.handleNewTransferClose} installedApps={installedApps} currentApp={currentApp} />
+        <PanelConnection opened={newConnectionOpen} onClose={this.handleNewTransferClose} installedApps={installedApps} api={api} currentApp={currentApp} />
       </Fragment>
     )
   }
 }
 
 export default () => {
-  const { appState, installedApps, guiStyle } = useAragonApi()
+  const { appState, installedApps, guiStyle, api, currentApp } = useAragonApi()
   const { appearance } = guiStyle
+
   return (
     <Main theme={appearance}>
-      <App appState={appState} isSyncing={appState.isSyncing} installedApps={installedApps} />
+      <App appState={appState} isSyncing={appState.isSyncing} installedApps={installedApps} api={api} currentApp={currentApp} />
     </Main>
   )
 }
