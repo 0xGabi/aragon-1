@@ -1,6 +1,7 @@
 import { Card, GU, AppBadge, Button } from '@aragon/ui'
 import moment from 'moment'
 import React from 'react'
+import CardTextLayout from './CardTextLayout'
 
 function CardConnection({ process, app }) {
   return (
@@ -13,46 +14,28 @@ function CardConnection({ process, app }) {
         padding: ${3 * GU}px;
       `}
     >
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: ${1 * GU}px;
-        `}
-      >
+      <CardTextLayout>
         <AppBadge appAddress={process.appAddress} label={app.name} iconSrc={app.icon()} identifier={app.identifier} />
-      </div>
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: ${1 * GU}px;
-        `}
-      >
+      </CardTextLayout>
+      <CardTextLayout>
         <span>
           <strong>Create At: </strong>
         </span>
         <span>{moment.unix(process.createdAt).format('DD/MM/YY')}</span>
-      </div>
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: ${1 * GU}px;
-        `}
-      >
+      </CardTextLayout>
+      <CardTextLayout>
         <span>
           <strong>Event: </strong>
         </span>
         <span>{process.eventName}</span>
-      </div>
-      <div
-        css={`
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: ${1 * GU}px;
-        `}
-      >
+      </CardTextLayout>
+      <CardTextLayout>
+        <span>
+          <strong>Service: </strong>
+        </span>
+        <span>WEBHOOK</span>
+      </CardTextLayout>
+      <CardTextLayout>
         <span>
           <strong>Status: </strong>
         </span>
@@ -63,19 +46,11 @@ function CardConnection({ process, app }) {
         >
           {process.active ? 'ACTIVATED' : 'DEACTIVATED'}
         </span>
-      </div>
+      </CardTextLayout>
       {process.active ? (
-        <div
-          css={`
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: ${1 * GU}px;
-          `}
-        >
-          <Button mode='negative' wide>
-            Deactivated connection
-          </Button>
-        </div>
+        <Button mode='negative' wide>
+          Deactivated connection
+        </Button>
       ) : (
         <div
           css={`

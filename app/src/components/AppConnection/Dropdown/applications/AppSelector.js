@@ -3,6 +3,8 @@ import React, { Component, Fragment } from 'react'
 import { Field, DropDown } from '@aragon/ui'
 
 import AppSelectorInstance from './AppSelectorInstance'
+
+// TODO: This should remove when on Testnet Network
 import { getEventAbi } from '../../../../utils/APM'
 
 class AppSelector extends Component {
@@ -14,7 +16,10 @@ class AppSelector extends Component {
 
   handleChange = async index => {
     const app = this.getAppFromInstalledApps(index)
+
+    // TODO: This should remove when on Testnet Network
     const eventABIs = await getEventAbi(app.appId, app.appImplementationAddress)
+
     this.props.onChange({ index, name: app.name, appId: app.appId, appAddress: app.appAddress, appImplementationAddress: app.appImplementationAddress, abi: eventABIs })
   }
 

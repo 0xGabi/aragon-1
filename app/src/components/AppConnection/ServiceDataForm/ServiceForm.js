@@ -16,11 +16,18 @@ class ServiceForm extends Component {
   async handleSubmit(e) {
     e.preventDefault()
     const { service, app, appEvent, api, onClose, currentApp } = this.props
-    // const eventSignature = await encodeEventSignature(appEvent.eventAbi)
-    // const createProcessTemp = await ConnectionTemplate(app, this.state, appEvent.eventAbi, eventSignature, currentApp.appAddress)
+    const eventSignature = await encodeEventSignature(appEvent.eventAbi)
+    const ipfsHash = await ConnectionTemplate(service.name, {
+      ...app,
+      eventAbi: appEvent.eventAbi,
+      mesgAddress: currentApp.appAddress,
+      eventSignature,
+      instanceHash: service.instanceHash,
+      data: this.state
+    })
 
     api
-      .create(app.appAddress, 'fsdjlfjsdlfjsdfljlsdfjldsjf', appEvent.eventAbi.name, JSON.stringify(this.state))
+      .create(app.appAddress, ipfsHash, appEvent.eventAbi.name, service.name, JSON.stringify(this.state))
       .toPromise()
       .then(result => {
         onClose()
