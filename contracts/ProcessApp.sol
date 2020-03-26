@@ -10,16 +10,18 @@ contract ProcessApp is AragonApp {
         address appAddress,
         string ipfsHash,
         string eventName,
-        string url
+        string serviceName,
+        string data
     );
-    event Desactivated(uint256 index);
+    event Deactivated(uint256 index);
 
     struct Process {
         uint256 createdAt;
         address appAddress;
         string ipfsHash;
         string eventName;
-        string url;
+        string serviceName;
+        string data;
         bool active;
     }
 
@@ -28,7 +30,7 @@ contract ProcessApp is AragonApp {
 
     /// ACL
     bytes32 public constant PUBLISH_ROLE = keccak256("PUBLISH_ROLE");
-    bytes32 public constant DESACTIVATE_ROLE = keccak256("DESACTIVATE_ROLE");
+    bytes32 public constant DEACTIVATE_ROLE = keccak256("DEACTIVATE_ROLE");
 
     function initialize() public onlyInit {
         initialized();
@@ -41,7 +43,8 @@ contract ProcessApp is AragonApp {
         address appAddress,
         string ipfsHash,
         string eventName,
-        string url
+        string serviceName,
+        string data
     ) external isInitialized auth(PUBLISH_ROLE) {
         process.push(
             Process({
@@ -49,7 +52,8 @@ contract ProcessApp is AragonApp {
                 appAddress: appAddress,
                 ipfsHash: ipfsHash,
                 eventName: eventName,
-                url: url,
+                serviceName: serviceName,
+                data: data,
                 active: true
             })
         );
@@ -58,17 +62,18 @@ contract ProcessApp is AragonApp {
             appAddress,
             ipfsHash,
             eventName,
-            url
+            serviceName,
+            data
         );
     }
 
     /**
      * @notice Desactivate a process
      */
-    function desactivate(uint256 index) external auth(DESACTIVATE_ROLE) {
+    function deacivate(uint256 index) external auth(DEACTIVATE_ROLE) {
         process[index].active = false;
         emit MESGProcessDelete(process[index].ipfsHash);
-        emit Desactivated(index);
+        emit Deactivated(index);
     }
 
     function getProcess(uint256 index)
@@ -79,7 +84,8 @@ contract ProcessApp is AragonApp {
             address appAddress,
             string ipfsHash,
             string eventName,
-            string url,
+            string serviceName,
+            string data,
             bool active
         )
     {
@@ -88,7 +94,8 @@ contract ProcessApp is AragonApp {
             process[index].appAddress,
             process[index].ipfsHash,
             process[index].eventName,
-            process[index].url,
+            process[index].serviceName,
+            process[index].data,
             process[index].active
         );
     }
