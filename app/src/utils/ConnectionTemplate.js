@@ -2,6 +2,7 @@ import { save } from './ipfs-util'
 
 // Template
 import webhook from './template/webhook'
+import telegram from './template/telegram'
 
 export default async (temp, data) => {
   switch (temp) {
@@ -15,7 +16,7 @@ export default async (temp, data) => {
       }
     case 'Telegram':
       try {
-        const compiler = await webhook(data)
+        const compiler = await telegram(data)
         const hash = await save(JSON.stringify(compiler))
         return hash
       } catch (error) {
