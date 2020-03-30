@@ -2,8 +2,8 @@ import { Button, Header, Main, SyncIndicator, Layout, EmptyStateCard } from '@ar
 import { useAragonApi } from '@aragon/api-react'
 import React, { Component, Fragment } from 'react'
 
-import ConnectionLayout from './screens/ConnectionLayout'
 import PanelConnection from './components/AppConnection/PanelConnection'
+import TableConnection from './components/DataConnection/TableConnection'
 
 class App extends Component {
   static defaultProps = {
@@ -42,7 +42,7 @@ class App extends Component {
                   margin-top: 10px;
                 `}
               >
-                <ConnectionLayout appState={appState} installedApps={installedApps} />
+                <TableConnection appState={appState} installedApps={installedApps} />
               </div>
             </Fragment>
           ) : (

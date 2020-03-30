@@ -32,18 +32,17 @@ const call = () =>
       const setArr = new Array(size).fill(null).map((_, i) => app.call('getProcess', i))
       const processList = await Promise.all(setArr)
       console.log(processList)
-      return initialize({ size, processList })
+      return initialize()
     }
     console.log(`Can't get processList because size is ${size}`)
-    return initialize([])
+    return initialize()
   })
 
 call()
 
 async function initialize(data) {
   return app.store(
-    async (state, { blockNumber, event, returnValues, transactionHash }) => {
-      console.log(`blockNumber: ${blockNumber}, event: ${event}, transactionHash: ${transactionHash}, `, 'returnValues: ', returnValues)
+    async (state, { event }) => {
       const nextState = { ...state }
       try {
         switch (event) {
@@ -53,7 +52,7 @@ async function initialize(data) {
             return { ...nextState, isSyncing: false }
           case 'Created':
             return { ...nextState, processes: await getProcessUpdate() }
-          case 'Desactivated':
+          case 'Deactivated':
             return { ...nextState, processes: await getProcessUpdate() }
           default:
             return state
