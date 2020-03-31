@@ -26,9 +26,9 @@ steps:
     blockNumber: {key: blockNumber}
 - type: task
   instanceHash: ${instanceHash}
-  taskKey: call
+  taskKey: execute
   inputs:
-    triggerType: aragonTrigger
+    triggerType: aragon_trigger
     data:
       decodedData: {key: decodedData}
       address: {key: address}
