@@ -51,7 +51,7 @@ class ServiceForm extends Component {
       <Fragment>
         {service.inputsFields.map((v, i) => (
           <Field key={i} label={v.label}>
-            <TextInput name={v.name} onChange={this.handleChange} required wide />
+            <TextInput name={v.name} onChange={this.handleChange} placeholder={v?.placeholder} required={v.required} wide />
           </Field>
         ))}
         <div
