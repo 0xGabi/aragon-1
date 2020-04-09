@@ -26,21 +26,10 @@ steps:
     blockNumber: {key: blockNumber}
 - type: task
   instanceHash: ${instanceHash}
-  taskKey: execute
+  taskKey: sms
   inputs:
-    email: ${data.email}
-    triggerType: aragon_trigger
-    data:
-      decodedData: {key: decodedData}
-      address: {key: address}
-      eventSignature: {key: eventSignature}
-      data: {key: data}
-      topics: {key: topics}
-      logIndex: {key: logIndex}
-      transactionHash: {key: transactionHash}
-      transactionIndex: {key: transactionIndex}
-      blockHash: {key: blockHash}
-      blockNumber: {key: blockNumber}
+    to: ${data.to}
+    body: ${data.body}
   `
   const compiler = await process(Buffer.from(temp))
   return compiler
