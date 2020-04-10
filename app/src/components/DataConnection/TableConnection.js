@@ -56,6 +56,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
       renderEntry={({ createdAt, appAddress, eventName, serviceName, data, active }) => {
         const app = installedApps.find(app => app.appAddress.toLowerCase() === appAddress.toLowerCase())
         const appData = JSON.parse(data)
+        const keys = Object.keys(appData)
         return [
           <Text size='small'>{createdAt}</Text>,
           <div
@@ -90,7 +91,9 @@ function TableConnection({ appState: { processes }, installedApps }) {
               padding: 0 ${0.5 * GU}px;
             `}
           >
-            {appData[Object.keys(appData)]}
+            {keys.map((key, i) => (
+              <div key={i}>{appData[key]}</div>
+            ))}
           </div>,
           <div
             css={`

@@ -28,8 +28,8 @@ steps:
   instanceHash: ${instanceHash}
   taskKey: sms
   inputs:
-    to: ${data.to}
-    body: ${data.body}
+    to: '${data.to}'
+    body: '${data.body}'
   `
   const compiler = await process(Buffer.from(temp))
   return compiler
