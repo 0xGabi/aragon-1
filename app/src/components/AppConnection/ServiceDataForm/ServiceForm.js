@@ -15,7 +15,7 @@ class ServiceForm extends Component {
 
   async handleSubmit(e) {
     e.preventDefault()
-    const { service, app, appEvent, api, onClose, currentApp } = this.props
+    const { service, app, appEvent, api, onClose, currentApp, organization } = this.props
     const eventSignature = await encodeEventSignature(appEvent.eventAbi)
     const ipfsHash = await ConnectionTemplate(service.name, {
       ...app,
@@ -27,7 +27,7 @@ class ServiceForm extends Component {
     })
 
     api
-      .create(app.appAddress, ipfsHash, appEvent.eventAbi.name, service.name, JSON.stringify(this.state))
+      .create(app.appAddress, ipfsHash, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
       .toPromise()
       .then(result => {
         onClose()

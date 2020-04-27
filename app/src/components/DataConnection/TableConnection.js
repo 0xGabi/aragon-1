@@ -7,6 +7,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
   const { api } = useAragonApi()
   const theme = useTheme()
   const { layoutName } = useLayout()
+  const organization = installedApps.find(app => app.name === 'Kernel')
 
   const compactMode = layoutName === 'small'
 
@@ -123,7 +124,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
       renderEntryActions={({ entity, index }) => {
         return (
           <ContextMenu zIndex={1}>
-            <ContextMenuItem onClick={() => api.deacivate(index).toPromise()}>
+            <ContextMenuItem onClick={() => api.deacivate(index, organization.appAddress.toLowerCase()).toPromise()}>
               <IconRemove
                 css={`
                   color: ${theme.surfaceContentSecondary};

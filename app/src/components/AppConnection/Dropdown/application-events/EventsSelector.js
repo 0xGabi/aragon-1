@@ -24,7 +24,7 @@ class EventsSelector extends Component {
   }
 
   render() {
-    const { label, selectedIndex,disabled } = this.props
+    const { label, selectedIndex, disabled } = this.props
     const items = this.getEventsName()
     return (
       <Fragment>

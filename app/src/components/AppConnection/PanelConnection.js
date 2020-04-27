@@ -55,6 +55,7 @@ class PanelConnection extends Component {
     const { opened, onClose, installedApps, api, currentApp } = this.props
     const { selectedApp, selectedAppEvents, selectedService } = this.state
     const DdApps = installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== 'MESG')
+    const organization = installedApps.find(app => app.name === 'Kernel')
 
     this.handleChange = this.handleChange.bind(this)
     this.handleEventChange = this.handleEventChange.bind(this)
@@ -89,7 +90,15 @@ class PanelConnection extends Component {
               margin-top: 10px;
             `}
           >
-            <ServiceForm service={selectedService.service} app={selectedApp} appEvent={selectedAppEvents} api={api} onClose={onClose} currentApp={currentApp} />
+            <ServiceForm
+              service={selectedService.service}
+              app={selectedApp}
+              appEvent={selectedAppEvents}
+              api={api}
+              onClose={onClose}
+              currentApp={currentApp}
+              organization={organization}
+            />
           </div>
         ) : (
           <Fragment />
