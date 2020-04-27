@@ -1,4 +1,4 @@
-import { process } from '@mesg/compiler'
+import { process } from '@liteflow/compiler'
 
 export default async ({ name, appAddress, eventAbi, mesgAddress, eventSignature, instanceHash, data }) => {
   const temp = `
