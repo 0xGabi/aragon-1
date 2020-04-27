@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 import "@aragon/os/contracts/apps/AragonApp.sol";
 
 contract ProcessApp is AragonApp {
-    event MESGProcessCreate(string ipfsHash);
-    event MESGProcessDelete(string ipfsHash);
+    event MESGProcessCreate(string ipfsHash, address organization);
+    event MESGProcessDelete(string ipfsHash, address organization);
     // Events
     event Created(
         address appAddress,
@@ -44,7 +44,8 @@ contract ProcessApp is AragonApp {
         string ipfsHash,
         string eventName,
         string serviceName,
-        string data
+        string data,
+        address organization
     ) external isInitialized auth(PUBLISH_ROLE) {
         process.push(
             Process({
@@ -57,7 +58,7 @@ contract ProcessApp is AragonApp {
                 active: true
             })
         );
-        emit MESGProcessCreate(ipfsHash);
+        emit MESGProcessCreate(ipfsHash, organization);
         emit Created(
             appAddress,
             ipfsHash,
@@ -70,9 +71,9 @@ contract ProcessApp is AragonApp {
     /**
      * @notice Desactivate a process
      */
-    function deacivate(uint256 index) external auth(DEACTIVATE_ROLE) {
+    function deacivate(uint256 index, address organization) external auth(DEACTIVATE_ROLE) {
         process[index].active = false;
-        emit MESGProcessDelete(process[index].ipfsHash);
+        emit MESGProcessDelete(process[index].ipfsHash, organization);
         emit Deactivated(index);
     }
 
