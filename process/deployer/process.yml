@@ -2,7 +2,7 @@ name: 'MESG Aragon app'
 steps:
   - type: trigger
     instance:
-      src: https://github.com/mesg-foundation/service-ethereum
+      src: https://github.com/liteflow-services/ethereum
       env:
         - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
     eventKey: log
@@ -11,12 +11,12 @@ steps:
       eventSignature: $(env:ENCODE_EVENT_SIGNATURE)
   - type: task
     instance:
-      src: https://github.com/mesg-foundation/service-ethereum
+      src: https://github.com/liteflow-services/ethereum
       env:
         - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
     taskKey: decodeLog
     inputs:
-      eventAbi: { 'anonymous': false, 'inputs': [{ 'indexed': false, 'name': 'ipfsHash', 'type': 'string' }], 'name': 'MESGProcessCreate', 'type': 'event' }
+      eventAbi: '{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":false,"name":"organization","type":"address"}],"name":"MESGProcessCreate","type":"event"}'
       data: { key: data }
       topics: { key: topics }
       address: { key: address }
@@ -27,9 +27,13 @@ steps:
       blockNumber: { key: blockNumber }
   - type: task
     instance:
-      src: https://github.com/mesg-foundation/service-process-deployer
+      src: https://github.com/liteflow-services/process-deployer
       env:
-        - IPFS_GATEWAY_ENDPOINT=$(env:IPFS_GATEWAY_ENDPOINT)
+        - IPFS_ENDPOINT=$(env:IPFS_ENDPOINT)
+        - FIREBASE_CONFIG=$(env:FIREBASE_CONFIG)
+        - FIREBASE_ACCOUNT_EMAIL=$(env:FIREBASE_ACCOUNT_EMAIL)
+        - FIREBASE_ACCOUNT_PASSWORD=$(env:FIREBASE_ACCOUNT_PASSWORD)
     taskKey: deploy
     inputs:
+      organization: { key: decodedData.organization }
       ipfsHash: { key: decodedData.ipfsHash }
