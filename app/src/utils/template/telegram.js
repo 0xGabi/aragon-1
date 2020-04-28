@@ -15,7 +15,7 @@ steps:
   instanceHash: ${process.env.ETHEREUM_HASH}
   taskKey: decodeLog
   inputs:
-    eventAbi: ${JSON.stringify(eventAbi)}
+    eventAbi: '${JSON.stringify(eventAbi)}'
     address: {key: address}
     data: {key: data}
     topics: {key: topics}
@@ -28,8 +28,11 @@ steps:
   instanceHash: ${instanceHash}
   taskKey: notify
   inputs:
+    botToken: ${data.botToken}
+    chatId: ${data.chatId}
     text: ${data.sendText}
-  `
+  `.trim()
+
   const compiler = await process(Buffer.from(temp))
   return compiler
 }
