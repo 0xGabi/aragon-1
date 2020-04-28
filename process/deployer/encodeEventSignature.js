@@ -8,6 +8,11 @@ const createAbi = {
       indexed: false,
       name: 'ipfsHash',
       type: 'string'
+    },
+    {
+      indexed: false,
+      name: 'organization',
+      type: 'address'
     }
   ],
   name: 'MESGProcessCreate',
