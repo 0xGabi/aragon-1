@@ -17,7 +17,7 @@ class ServiceForm extends Component {
     e.preventDefault()
     const { service, app, appEvent, api, onClose, currentApp, organization } = this.props
     const eventSignature = await encodeEventSignature(appEvent.eventAbi)
-    const ipfsHash = await ConnectionTemplate(service.name, {
+    const processUrl = await ConnectionTemplate(service.name, {
       ...app,
       eventAbi: appEvent.eventAbi,
       mesgAddress: currentApp.appAddress,
@@ -27,7 +27,7 @@ class ServiceForm extends Component {
     })
 
     api
-      .create(app.appAddress, ipfsHash, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
+      .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
       .toPromise()
       .then(result => {
         onClose()
