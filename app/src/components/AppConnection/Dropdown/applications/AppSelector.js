@@ -5,7 +5,7 @@ import { Field, DropDown } from '@aragon/ui'
 import AppSelectorInstance from './AppSelectorInstance'
 
 // TODO: This should remove when on Testnet Network
-import { getEventAbi } from '../../../../utils/APM'
+// import { getEventAbi } from '../../../../utils/APM'
 
 class AppSelector extends Component {
   static defaultProps = {
@@ -18,7 +18,7 @@ class AppSelector extends Component {
     const app = this.getAppFromInstalledApps(index)
 
     // TODO: This should remove when on Testnet Network
-    const eventABIs = await getEventAbi(app.appId, app.appImplementationAddress)
+    const eventABIs = app.abi.filter(abi => abi.type === 'event')
 
     this.props.onChange({ index, name: app.name, appId: app.appId, appAddress: app.appAddress, appImplementationAddress: app.appImplementationAddress, abi: eventABIs })
   }
