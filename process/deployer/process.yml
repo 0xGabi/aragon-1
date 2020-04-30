@@ -29,11 +29,10 @@ steps:
     instance:
       src: https://github.com/liteflow-services/process-deployer
       env:
-        - IPFS_ENDPOINT=$(env:IPFS_ENDPOINT)
         - FIREBASE_CONFIG=$(env:FIREBASE_CONFIG)
         - FIREBASE_ACCOUNT_EMAIL=$(env:FIREBASE_ACCOUNT_EMAIL)
         - FIREBASE_ACCOUNT_PASSWORD=$(env:FIREBASE_ACCOUNT_PASSWORD)
     taskKey: deploy
     inputs:
-      processUrl: { key: decodedData.ipfsHash }
+      processUrl: { key: decodedData.processUrl }
       projectName: { key: decodedData.organization }
