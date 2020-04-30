@@ -15,33 +15,33 @@ export default {
     //   taskKey: 'tweet',
     //   inputsFields: [{ name: 'tweetText', label: 'Text', type: 'text', required: true }]
     // },
-    // {
-    //   name: 'Telegram',
-    //   instanceHash: process.env.TELEGRAM_HASH,
-    //   taskKey: 'notify',
-    //   inputsFields: [
-    //     { name: 'botToken', label: 'Telegram bot token', type: 'text', required: true },
-    //     { name: 'chatId', label: 'Telegram chat id', type: 'text', required: true },
-    //     { name: 'sendText', label: 'Message to Notification', type: 'text', required: true }
-    //   ]
-    // },
-    // {
-    //   name: 'Slack',
-    //   instanceHash: process.env.SLACK_HASH,
-    //   taskKey: 'notify',
-    //   inputsFields: [
-    //     { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
-    //     { name: 'text', label: 'Message to Notification', type: 'text', required: true },
-    //     { name: 'icon_emoji', label: 'Emoji for the bot picture', type: 'text', required: true },
-    //     { name: 'username', label: 'Name of the user', type: 'text', required: true }
-    //   ]
-    // },
+    {
+      name: 'Telegram',
+      instanceHash: process.env.TELEGRAM_HASH,
+      taskKey: 'notify',
+      inputsFields: [
+        { name: 'botToken', label: 'Telegram bot token', type: 'text', required: true },
+        { name: 'chatId', label: 'Telegram chat id', type: 'text', required: true },
+        { name: 'sendText', label: 'Message to Notification', type: 'text', required: true }
+      ]
+    },
+    {
+      name: 'Slack',
+      instanceHash: process.env.SLACK_HASH,
+      taskKey: 'notify',
+      inputsFields: [
+        { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
+        { name: 'text', label: 'Message to Notification', type: 'text', required: true },
+        { name: 'icon_emoji', label: 'Emoji for the bot picture', type: 'text', required: true },
+        { name: 'username', label: 'Name of the user', type: 'text', required: true }
+      ]
+    },
     {
       name: 'Webhook',
       instanceHash: process.env.WEBHOOK_HASH,
       taskKey: 'call',
       inputsFields: [{ name: 'hookUrl', label: 'Webhook Url', type: 'text', placeholder: 'https://webhook.site', required: true }]
-    }
+    },
     // {
     //   name: 'Twilio',
     //   instanceHash: process.env.TWILIO_HASH,
@@ -51,17 +51,17 @@ export default {
     //     { name: 'body', label: 'Message to send the SMS', type: 'text', required: true }
     //   ]
     // },
-    // {
-    //   name: 'Email',
-    //   instanceHash: process.env.SENDGRID_HASH,
-    //   taskKey: 'send',
-    //   inputsFields: [
-    //     { name: 'from', label: 'From email', type: 'text', placeholder: 'example@mail.com', required: true },
-    //     { name: 'to', label: 'to email', type: 'text', placeholder: 'example@mail.com', required: true },
-    //     { name: 'subject', label: 'Subject', type: 'text', required: true },
-    //     { name: 'text', label: 'The text of the email', type: 'text', required: false },
-    //     { name: 'html', label: 'The html content of the email', type: 'text', required: false }
-    //   ]
-    // }
+    {
+      name: 'Email',
+      instanceHash: process.env.SENDGRID_HASH,
+      taskKey: 'send',
+      inputsFields: [
+        { name: 'from', label: 'From email', type: 'text', placeholder: 'example@mail.com', required: true },
+        { name: 'to', label: 'to email', type: 'text', placeholder: 'example@mail.com', required: true },
+        { name: 'subject', label: 'Subject', type: 'text', required: true },
+        { name: 'text', label: 'The text of the email', type: 'text', required: false },
+        { name: 'html', label: 'The html content of the email', type: 'text', required: false }
+      ]
+    }
   ]
 }
