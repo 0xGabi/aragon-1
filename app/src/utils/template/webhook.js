@@ -42,8 +42,6 @@ steps:
       blockNumber: {key: blockNumber}
   `.trim()
 
-  console.log(temp)
-
   const compiler = await process(Buffer.from(temp))
   return compiler
 }

@@ -9,13 +9,15 @@ import slack from './template/slack'
 import twilio from './template/twilio'
 import email from './template/email'
 
+const url = process.env.IPFS_GATEWAY_ENDPOINT
+
 export default async (temp, data) => {
   switch (temp) {
     case 'Webhook':
       try {
         const compiler = await webhook(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -23,7 +25,7 @@ export default async (temp, data) => {
       try {
         const compiler = await telegram(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -31,7 +33,7 @@ export default async (temp, data) => {
       try {
         const compiler = await zapier(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -39,7 +41,7 @@ export default async (temp, data) => {
       try {
         const compiler = await twitter(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -47,7 +49,7 @@ export default async (temp, data) => {
       try {
         const compiler = await slack(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -55,7 +57,7 @@ export default async (temp, data) => {
       try {
         const compiler = await twilio(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
@@ -63,7 +65,7 @@ export default async (temp, data) => {
       try {
         const compiler = await email(data)
         const hash = await save(JSON.stringify(compiler))
-        return hash
+        return `${url}/${hash}`
       } catch (error) {
         throw new Error(error)
       }
