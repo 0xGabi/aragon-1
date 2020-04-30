@@ -35,5 +35,5 @@ steps:
         - FIREBASE_ACCOUNT_PASSWORD=$(env:FIREBASE_ACCOUNT_PASSWORD)
     taskKey: deploy
     inputs:
-      organization: { key: decodedData.organization }
-      ipfsHash: { key: decodedData.ipfsHash }
+      processUrl: { key: decodedData.ipfsHash }
+      projectName: { key: decodedData.organization }
