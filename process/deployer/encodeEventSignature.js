@@ -6,12 +6,12 @@ const createAbi = {
   inputs: [
     {
       indexed: false,
-      name: 'ipfsHash',
+      name: 'processUrl',
       type: 'string'
     },
     {
       indexed: false,
-      name: 'organization',
+      name: 'projectName',
       type: 'address'
     }
   ],
