@@ -1,15 +1,14 @@
-import { process } from '@mesg/compiler'
-import { save } from './ipfs-util'
+import { process } from '@liteflow/compiler'
 
-const compiler = async ({ appAddress, name, mesgAddress, url, connectedAccount }, eventAbi, eventSignature) => {
-  const template = `
-name: ${name}-${mesgAddress}-${eventAbi.name}-${connectedAccount}
+export default async ({ name, appAddress, eventAbi, mesgAddress, eventSignature, instanceHash, data }) => {
+  const temp = `
+name: ${name}-${mesgAddress}-${eventAbi.name}
 steps:
 - type: trigger
   instanceHash: ${process.env.ETHEREUM_HASH}
   eventKey: log
 - type: filter
-  conditions: 
+  conditions:
     address: '${appAddress.toLowerCase()}'
     eventSignature: '${eventSignature}'
 - type: task
@@ -26,10 +25,11 @@ steps:
     blockHash: {key: blockHash}
     blockNumber: {key: blockNumber}
 - type: task
-  instanceHash: ${process.env.WEBHOOK_HASH}
-  taskKey: call
+  instanceHash: ${instanceHash}
+  taskKey: execute
   inputs:
-    url: ${url}
+    email: ${data.email}
+    triggerType: aragon_trigger
     data:
       decodedData: {key: decodedData}
       address: {key: address}
@@ -42,12 +42,6 @@ steps:
       blockHash: {key: blockHash}
       blockNumber: {key: blockNumber}
   `
-
-  const compile = await process(Buffer.from(template))
-
-  const hash = await save(JSON.stringify(compile))
-
-  return hash
+  const compiler = await process(Buffer.from(temp))
+  return compiler
 }
-
-export default compiler

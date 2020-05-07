@@ -6,8 +6,13 @@ const createAbi = {
   inputs: [
     {
       indexed: false,
-      name: 'ipfsHash',
+      name: 'processUrl',
       type: 'string'
+    },
+    {
+      indexed: false,
+      name: 'projectName',
+      type: 'address'
     }
   ],
   name: 'MESGProcessCreate',
