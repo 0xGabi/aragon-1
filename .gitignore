@@ -7,3 +7,5 @@ coverage.json
 coverage
 .env
 *-abi.json
+artifacts
+cache
