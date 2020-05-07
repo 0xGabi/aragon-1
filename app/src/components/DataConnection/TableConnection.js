@@ -65,7 +65,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
           <Text size='small'>{createdAt}</Text>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
               ${!compactMode
                 ? `
                 display: inline-flex;
@@ -78,21 +78,21 @@ function TableConnection({ appState: { processes }, installedApps }) {
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {eventName}
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {serviceName}
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {keys.map((key, i) => (
@@ -101,7 +101,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {active ? (
