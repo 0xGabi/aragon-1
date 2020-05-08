@@ -1,4 +1,4 @@
-name: 'MESG Aragon app'
+name: "MESG Aragon app"
 steps:
   - type: trigger
     instance:
@@ -16,7 +16,7 @@ steps:
         - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
     taskKey: decodeLog
     inputs:
-      eventAbi: '{"anonymous":false,"inputs":[{"indexed":false,"name":"ipfsHash","type":"string"},{"indexed":false,"name":"organization","type":"address"}],"name":"MESGProcessCreate","type":"event"}'
+      eventAbi: '{"anonymous":false,"inputs":[{"indexed":false,"name":"processUrl","type":"string"},{"indexed":false,"name":"projectName","type":"address"}],"name":"MESGProcessCreate","type":"event"}'
       data: { key: data }
       topics: { key: topics }
       address: { key: address }
@@ -35,4 +35,4 @@ steps:
     taskKey: deploy
     inputs:
       processUrl: { key: decodedData.processUrl }
-      projectName: { key: decodedData.organization }
+      projectName: { key: decodedData.projectName }

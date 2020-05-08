@@ -3,6 +3,8 @@ import { DataView, textStyle, useTheme, GU, useLayout, Text, AppBadge, ContextMe
 import moment from 'moment'
 import { useAragonApi } from '@aragon/api-react'
 
+import { IsValidJSONString } from '../../utils/helper'
+
 function TableConnection({ appState: { processes }, installedApps }) {
   const { api } = useAragonApi()
   const theme = useTheme()
@@ -49,20 +51,21 @@ function TableConnection({ appState: { processes }, installedApps }) {
           appAddress: process.appAddress,
           eventName: process.eventName,
           serviceName: process.serviceName,
-          data: process.data,
+          data: process.data || {},
           active: process.active
         }),
         []
       )}
       renderEntry={({ createdAt, appAddress, eventName, serviceName, data, active }) => {
         const app = installedApps.find(app => app.appAddress.toLowerCase() === appAddress.toLowerCase())
-        const appData = JSON.parse(data)
+        const appData = IsValidJSONString(data) ? JSON.parse(data) : {}
         const keys = Object.keys(appData)
+
         return [
           <Text size='small'>{createdAt}</Text>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
               ${!compactMode
                 ? `
                 display: inline-flex;
@@ -71,25 +74,25 @@ function TableConnection({ appState: { processes }, installedApps }) {
                 : ''};
             `}
           >
-            <AppBadge appAddress={appAddress} label={app.name} iconSrc={app.icon()} identifier={app.identifier} />
+            <AppBadge appAddress={appAddress} label={app?.name} iconSrc={app?.icon()} identifier={app?.identifier} />
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {eventName}
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {serviceName}
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {keys.map((key, i) => (
@@ -98,7 +101,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
           </div>,
           <div
             css={`
-              padding: 0 ${0.5 * GU}px;
+              padding: 10px ${0.5 * GU}px;
             `}
           >
             {active ? (

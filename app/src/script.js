@@ -26,16 +26,8 @@ const retryEvery = async (callback, { initialRetryTimer = 1000, increaseFactor =
 
 const call = () =>
   retryEvery(async () => {
-    const size = await app.call('size').toPromise()
-    if (parseInt(size) !== 0) {
-      console.log(`size isn't zero`)
-      const setArr = new Array(size).fill(null).map((_, i) => app.call('getProcess', i))
-      const processList = await Promise.all(setArr)
-      console.log(processList)
-      return initialize()
-    }
-    console.log(`Can't get processList because size is ${size}`)
-    return initialize()
+    const processes = await getProcessUpdate()
+    return initialize(processes)
   })
 
 call()
@@ -46,14 +38,14 @@ async function initialize(data) {
       const nextState = { ...state }
       try {
         switch (event) {
-          case events.SYNC_STATUS_SYNCING:
-            return { ...nextState, isSyncing: true }
-          case events.SYNC_STATUS_SYNCED:
-            return { ...nextState, isSyncing: false }
           case 'Created':
             return { ...nextState, processes: await getProcessUpdate() }
           case 'Deactivated':
             return { ...nextState, processes: await getProcessUpdate() }
+          case events.SYNC_STATUS_SYNCING:
+            return { ...nextState, isSyncing: true }
+          case events.SYNC_STATUS_SYNCED:
+            return { ...nextState, isSyncing: false }
           default:
             return state
         }
@@ -62,18 +54,9 @@ async function initialize(data) {
       }
     },
     {
-      init: initializeState()
+      init: initializeState(data)
     }
   )
-}
-
-function initializeState() {
-  return async cachedState => {
-    return {
-      ...cachedState,
-      processes: []
-    }
-  }
 }
 
 /***********************
@@ -82,11 +65,27 @@ function initializeState() {
  *                     *
  ***********************/
 
-async function getProcessUpdate() {
-  const size = await app.call('size').toPromise()
-  const processes = []
-  for (let i = 0; i < size; i++) {
-    processes.push(await app.call('getProcess', i).toPromise())
+function initializeState(processList) {
+  return async cachedState => {
+    return {
+      ...cachedState,
+      processes: processList
+    }
   }
-  return processes
+}
+
+async function getProcessUpdate() {
+  try {
+    const size = await app.call('size').toPromise()
+    if (size === 0) return []
+    const newArray = new Array(parseInt(size))
+      .fill(null)
+      .map((_, i) => app.call('getProcess', i).toPromise())
+      .map(data => data.catch(Error))
+    const processes = (await Promise.all(newArray)).filter(result => !(result instanceof Error))
+    return processes
+  } catch (error) {
+    console.log(error)
+    return []
+  }
 }
