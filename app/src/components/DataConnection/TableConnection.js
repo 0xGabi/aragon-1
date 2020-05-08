@@ -31,7 +31,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
                 ${textStyle('body1')};
               `}
             >
-              Transfers
+              Connection List
             </div>
           </div>
         </Fragment>
@@ -127,7 +127,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
       renderEntryActions={({ entity, index }) => {
         return (
           <ContextMenu zIndex={1}>
-            <ContextMenuItem onClick={() => api.deacivate(index, organization.appAddress.toLowerCase()).toPromise()}>
+            <ContextMenuItem onClick={() => api.deactivate(index, organization.appAddress.toLowerCase()).toPromise()}>
               <IconRemove
                 css={`
                   color: ${theme.surfaceContentSecondary};
