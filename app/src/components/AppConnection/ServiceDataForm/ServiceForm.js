@@ -27,7 +27,7 @@ class ServiceForm extends Component {
     })
 
     api
-      .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
+      .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.label, JSON.stringify(this.state), organization.appAddress.toLowerCase())
       .toPromise()
       .then(result => {
         onClose()
@@ -64,7 +64,7 @@ class ServiceForm extends Component {
             <Info>
               {service?.description?.text}{' '}
               {service?.description?.link ? (
-                <a href={service?.description?.link} target='_blank' rel='noopener'>
+                <a href={service?.description?.link} target='_blank' rel='noopener noreferrer'>
                   example
                 </a>
               ) : null}
@@ -81,7 +81,7 @@ class ServiceForm extends Component {
           `}
         >
           <Button mode='strong' disabled={Object.keys(this.state).length === 0} wide onClick={this.handleSubmit}>
-            Create new connection
+            Create connection
           </Button>
         </div>
       </Fragment>
