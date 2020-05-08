@@ -31,7 +31,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
                 ${textStyle('body1')};
               `}
             >
-              Transfers
+              Connection List
             </div>
           </div>
         </Fragment>
@@ -66,14 +66,12 @@ function TableConnection({ appState: { processes }, installedApps }) {
           <div
             css={`
               padding: 10px ${0.5 * GU}px;
-              ${
-                !compactMode
-                  ? `
+              ${!compactMode
+                ? `
                 display: inline-flex;
                 max-width: ${layoutName === 'large' ? 'unset' : '150px'};
               `
-                  : ''
-              };
+                : ''};
             `}
           >
             <AppBadge appAddress={appAddress} label={app?.name} iconSrc={app?.icon()} identifier={app?.identifier} />
