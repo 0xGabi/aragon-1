@@ -21,9 +21,9 @@ export default {
       instanceHash: process.env.TELEGRAM_HASH,
       taskKey: 'notify',
       inputsFields: [
-        { name: 'botToken', label: 'Telegram bot token', type: 'text', required: true },
-        { name: 'chatId', label: 'Telegram chat id', type: 'text', required: true },
-        { name: 'sendText', label: 'Message to Notification', type: 'text', required: true }
+        { name: 'botToken', label: 'bot token', type: 'text', required: true },
+        { name: 'chatId', label: 'chat id', type: 'text', required: true },
+        { name: 'sendText', label: 'message', type: 'text', required: true }
       ]
     },
     {
