@@ -69,9 +69,9 @@ contract ProcessApp is AragonApp {
     }
 
     /**
-     * @notice Desactivate a process
+     * @notice Deactivate a process
      */
-    function deacivate(uint256 index, address projectName) external auth(DEACTIVATE_ROLE) {
+    function deactivate(uint256 index, address projectName) external auth(DEACTIVATE_ROLE) {
         process[index].active = false;
         emit MESGProcessDelete(process[index].processUrl, projectName);
         emit Deactivated(index);

@@ -66,12 +66,14 @@ function TableConnection({ appState: { processes }, installedApps }) {
           <div
             css={`
               padding: 10px ${0.5 * GU}px;
-              ${!compactMode
-                ? `
+              ${
+                !compactMode
+                  ? `
                 display: inline-flex;
                 max-width: ${layoutName === 'large' ? 'unset' : '150px'};
               `
-                : ''};
+                  : ''
+              };
             `}
           >
             <AppBadge appAddress={appAddress} label={app?.name} iconSrc={app?.icon()} identifier={app?.identifier} />
@@ -127,7 +129,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
       renderEntryActions={({ entity, index }) => {
         return (
           <ContextMenu zIndex={1}>
-            <ContextMenuItem onClick={() => api.deacivate(index, organization.appAddress.toLowerCase()).toPromise()}>
+            <ContextMenuItem onClick={() => api.deactivate(index, organization.appAddress.toLowerCase()).toPromise()}>
               <IconRemove
                 css={`
                   color: ${theme.surfaceContentSecondary};
