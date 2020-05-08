@@ -56,11 +56,9 @@ export default {
       instanceHash: process.env.SENDGRID_HASH,
       taskKey: 'send',
       inputsFields: [
-        { name: 'from', label: 'From email', type: 'text', placeholder: 'example@mail.com', required: true },
-        { name: 'to', label: 'to email', type: 'text', placeholder: 'example@mail.com', required: true },
+        { name: 'to', label: 'EMAIL', type: 'text', placeholder: 'example@mail.com', required: true },
         { name: 'subject', label: 'Subject', type: 'text', required: true },
-        { name: 'text', label: 'The text of the email', type: 'text', required: false },
-        { name: 'html', label: 'The html content of the email', type: 'text', required: false }
+        { name: 'text', label: 'CONTENT', type: 'text', required: false }
       ]
     }
   ]

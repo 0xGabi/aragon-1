@@ -26,6 +26,8 @@ class ServiceForm extends Component {
       data: this.state
     })
 
+    console.log(processUrl)
+
     api
       .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
       .toPromise()

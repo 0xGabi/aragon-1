@@ -28,11 +28,10 @@ steps:
   instanceHash: ${instanceHash}
   taskKey: send
   inputs:
-    from: ${data.from}
+    from: 'notification@mesg.com'
     to: ${data.to}
     subject: ${data.subject}
     text: ${data.text}
-    html: ${data.html}
   `
   const compiler = await process(Buffer.from(temp))
   return compiler
