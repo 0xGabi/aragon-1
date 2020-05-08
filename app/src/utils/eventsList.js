@@ -40,7 +40,16 @@ export default {
       name: 'Webhook',
       instanceHash: process.env.WEBHOOK_HASH,
       taskKey: 'call',
-      inputsFields: [{ name: 'hookUrl', label: 'Webhook Url', type: 'text', placeholder: 'https://webhook.site', required: true }]
+      description: { text: 'A POST request will be sent to this URL with the content of the event ', link: 'https://pastebin.com/whxdT0JE' },
+      inputsFields: [
+        {
+          name: 'hookUrl',
+          label: 'url',
+          type: 'text',
+          placeholder: 'https://webhook.site',
+          required: true
+        }
+      ]
     },
     // {
     //   name: 'Twilio',
