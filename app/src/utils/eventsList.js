@@ -33,9 +33,9 @@ export default {
       taskKey: 'notify',
       inputsFields: [
         { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
-        { name: 'text', label: 'Message to Notification', type: 'text', required: true },
-        { name: 'icon_emoji', label: 'Emoji for the bot picture', type: 'text', required: true },
-        { name: 'username', label: 'Name of the user', type: 'text', required: true }
+        { name: 'username', label: 'Bot name', type: 'text', required: true },
+        { name: 'icon_emoji', label: 'Bot picture', type: 'text', required: true },
+        { name: 'text', label: 'Message', type: 'text', required: true }
       ]
     },
     {
