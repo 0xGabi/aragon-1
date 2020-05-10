@@ -17,30 +17,42 @@ export default {
     // },
     {
       name: 'Telegram',
+      label: 'Send a message on Telegram',
       instanceHash: process.env.TELEGRAM_HASH,
       taskKey: 'notify',
       inputsFields: [
-        { name: 'botToken', label: 'Telegram bot token', type: 'text', required: true },
-        { name: 'chatId', label: 'Telegram chat id', type: 'text', required: true },
-        { name: 'sendText', label: 'Message to Notification', type: 'text', required: true }
+        { name: 'botToken', label: 'bot token', type: 'text', required: true },
+        { name: 'chatId', label: 'chat id', type: 'text', required: true },
+        { name: 'sendText', label: 'message', type: 'text', required: true }
       ]
     },
     {
       name: 'Slack',
+      label: 'Send a message on Slack',
       instanceHash: process.env.SLACK_HASH,
       taskKey: 'notify',
       inputsFields: [
         { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
-        { name: 'text', label: 'Message to Notification', type: 'text', required: true },
-        { name: 'icon_emoji', label: 'Emoji for the bot picture', type: 'text', required: true },
-        { name: 'username', label: 'Name of the user', type: 'text', required: true }
+        { name: 'username', label: 'Bot name', type: 'text', required: true },
+        { name: 'icon_emoji', label: 'Bot picture', type: 'text', required: true },
+        { name: 'text', label: 'Message', type: 'text', required: true }
       ]
     },
     {
       name: 'Webhook',
+      label: 'Post to URL',
       instanceHash: process.env.WEBHOOK_HASH,
       taskKey: 'call',
-      inputsFields: [{ name: 'hookUrl', label: 'Webhook Url', type: 'text', placeholder: 'https://webhook.site', required: true }]
+      description: { text: 'A POST request will be sent to this URL with the content of the event ', link: 'https://pastebin.com/whxdT0JE' },
+      inputsFields: [
+        {
+          name: 'hookUrl',
+          label: 'url',
+          type: 'text',
+          placeholder: 'https://webhook.site',
+          required: true
+        }
+      ]
     },
     // {
     //   name: 'Twilio',
@@ -53,6 +65,7 @@ export default {
     // },
     {
       name: 'Email',
+      label: 'Send an email',
       instanceHash: process.env.SENDGRID_HASH,
       taskKey: 'send',
       inputsFields: [

@@ -4,20 +4,16 @@ import { Field, DropDown } from '@aragon/ui'
 
 import AppSelectorInstance from './AppSelectorInstance'
 
-// TODO: This should remove when on Testnet Network
-// import { getEventAbi } from '../../../../utils/APM'
-
 class AppSelector extends Component {
   static defaultProps = {
     onChange: () => {},
     apps: [],
-    label: 'Application'
+    label: 'When application'
   }
 
   handleChange = async index => {
     const app = this.getAppFromInstalledApps(index)
 
-    // TODO: This should remove when on Testnet Network
     const eventABIs = app.abi.filter(abi => abi.type === 'event')
 
     this.props.onChange({ index, name: app.name, appId: app.appId, appAddress: app.appAddress, appImplementationAddress: app.appImplementationAddress, abi: eventABIs })
@@ -43,7 +39,7 @@ class AppSelector extends Component {
     return (
       <Fragment>
         <Field label={label}>
-          <DropDown header='Application' items={items} selected={selectedIndex} onChange={this.handleChange} required wide />
+          <DropDown header='When application' items={items} selected={selectedIndex} onChange={this.handleChange} required wide />
         </Field>
       </Fragment>
     )

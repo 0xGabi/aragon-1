@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { Field, TextInput, Button } from '@aragon/ui'
+import { Field, TextInput, Button, Info } from '@aragon/ui'
 
 import { encodeEventSignature } from '../../../utils/Web3'
 import ConnectionTemplate from '../../../utils/ConnectionTemplate'
@@ -27,7 +27,7 @@ class ServiceForm extends Component {
     })
 
     api
-      .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.name, JSON.stringify(this.state), organization.appAddress.toLowerCase())
+      .create(app.appAddress, processUrl, appEvent.eventAbi.name, service.label, JSON.stringify(this.state), organization.appAddress.toLowerCase())
       .toPromise()
       .then(result => {
         onClose()
@@ -54,13 +54,34 @@ class ServiceForm extends Component {
             <TextInput name={v.name} onChange={this.handleChange} placeholder={v?.placeholder} required={v.required} wide />
           </Field>
         ))}
+
+        {service.description ? (
+          <div
+            css={`
+              margin-top: 5px;
+            `}
+          >
+            <Info>
+              {service?.description?.text}{' '}
+              {service?.description?.link ? (
+                <a href={service?.description?.link} target='_blank' rel='noopener noreferrer'>
+                  example
+                </a>
+              ) : null}
+              .
+            </Info>
+          </div>
+        ) : (
+          <Fragment />
+        )}
+
         <div
           css={`
-            margin-top: 5px;
+            margin-top: ${service?.description ? '15px' : '5px'};
           `}
         >
           <Button mode='strong' disabled={Object.keys(this.state).length === 0} wide onClick={this.handleSubmit}>
-            Create new connection
+            Create connection
           </Button>
         </div>
       </Fragment>
