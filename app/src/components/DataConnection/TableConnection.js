@@ -41,7 +41,13 @@ function TableConnection({ appState: { processes }, installedApps }) {
       return (
         <div>
           <span>
-            <strong>{label}: </strong>
+            <strong
+              css={`
+                text-transform: capitalize;
+              `}
+            >
+              {label}:{' '}
+            </strong>
             <span>&nbsp;{content.appData[key]}</span>
           </span>
         </div>
@@ -66,8 +72,8 @@ function TableConnection({ appState: { processes }, installedApps }) {
           { label: 'App', priority: 3 },
           { label: 'Event', priority: 3 },
           { label: 'Task', priority: 3 },
-          { label: 'Data', priority: 1 },
-          { label: 'Status', priority: 2 }
+          { label: 'Data', priority: 1 }
+          // { label: 'Status', priority: 2 }
         ]}
         entries={processes.map(
           (process, i) => ({
@@ -124,30 +130,30 @@ function TableConnection({ appState: { processes }, installedApps }) {
                 <IconView />
                 &nbsp;&nbsp; View Data
               </Button>
-            </div>,
-            <div
-              css={`
-                padding: 10px ${0.5 * GU}px;
-              `}
-            >
-              {active ? (
-                <span
-                  css={`
-                    color: ${theme.positive};
-                  `}
-                >
-                  <b>ACTIVATED</b>
-                </span>
-              ) : (
-                <span
-                  css={`
-                    color: ${theme.negative};
-                  `}
-                >
-                  <b>DEACTIVATED</b>
-                </span>
-              )}
             </div>
+            // <div
+            //   css={`
+            //     padding: 10px ${0.5 * GU}px;
+            //   `}
+            // >
+            //   {active ? (
+            //     <span
+            //       css={`
+            //         color: ${theme.positive};
+            //       `}
+            //     >
+            //       <b>ACTIVATED</b>
+            //     </span>
+            //   ) : (
+            //     <span
+            //       css={`
+            //         color: ${theme.negative};
+            //       `}
+            //     >
+            //       <b>DEACTIVATED</b>
+            //     </span>
+            //   )}
+            // </div>
           ]
         }}
         // renderEntryActions={({ entity, index }) => {
