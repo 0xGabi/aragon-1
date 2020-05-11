@@ -21,9 +21,9 @@ export default {
       instanceHash: process.env.TELEGRAM_HASH,
       taskKey: 'notify',
       inputsFields: [
-        { name: 'botToken', label: 'bot token', type: 'text', required: true },
-        { name: 'chatId', label: 'chat id', type: 'text', required: true },
-        { name: 'sendText', label: 'message', type: 'text', required: true }
+        { name: 'botToken', label: 'Bot token', type: 'text', required: true },
+        { name: 'chatId', label: 'Chat id', type: 'text', required: true },
+        { name: 'sendText', label: 'Message', type: 'text', required: true }
       ]
     },
     {
@@ -32,7 +32,7 @@ export default {
       instanceHash: process.env.SLACK_HASH,
       taskKey: 'notify',
       inputsFields: [
-        { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
+        { name: 'endpoint', label: 'Slack endpoint', type: 'text', required: true },
         { name: 'username', label: 'Bot name', type: 'text', required: true },
         { name: 'icon_emoji', label: 'Bot picture', type: 'text', required: true },
         { name: 'text', label: 'Message', type: 'text', required: true }
@@ -47,7 +47,7 @@ export default {
       inputsFields: [
         {
           name: 'hookUrl',
-          label: 'url',
+          label: 'Url',
           type: 'text',
           placeholder: 'https://webhook.site',
           required: true
@@ -69,9 +69,9 @@ export default {
       instanceHash: process.env.SENDGRID_HASH,
       taskKey: 'send',
       inputsFields: [
-        { name: 'to', label: 'EMAIL', type: 'text', placeholder: 'example@mail.com', required: true },
+        { name: 'to', label: 'Email', type: 'text', placeholder: 'example@mail.com', required: true },
         { name: 'subject', label: 'Subject', type: 'text', required: true },
-        { name: 'text', label: 'CONTENT', type: 'text', required: false }
+        { name: 'text', label: 'Content', type: 'text', required: false }
       ]
     }
   ]

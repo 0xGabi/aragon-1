@@ -65,7 +65,7 @@ class ServiceForm extends Component {
               {service?.description?.text}{' '}
               {service?.description?.link ? (
                 <a href={service?.description?.link} target='_blank' rel='noopener noreferrer'>
-                  example
+                  (example)
                 </a>
               ) : null}
               .
