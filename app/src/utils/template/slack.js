@@ -30,8 +30,6 @@ steps:
   inputs:
     endpoint: ${data.endpoint}
     text: ${data.text}
-    icon_emoji: ${data.icon_emoji}
-    username: ${data.username}
   `
   const compiler = await process(Buffer.from(temp))
   return compiler
