@@ -19,6 +19,7 @@ export default {
       name: 'Telegram',
       label: 'Send a message on Telegram',
       instanceHash: process.env.TELEGRAM_HASH,
+      description: { text: `To get a Telegram bot token, follow `, link: { label: `this link`, url: 'https://core.telegram.org/bots/api' } },
       taskKey: 'notify',
       inputsFields: [
         { name: 'botToken', label: 'Bot token', type: 'text', required: true },
@@ -30,11 +31,10 @@ export default {
       name: 'Slack',
       label: 'Send a message on Slack',
       instanceHash: process.env.SLACK_HASH,
+      description: { text: 'To get a Slack endpoint, follow ', link: { label: 'this link', url: 'https://api.slack.com/messaging/webhooks' } },
       taskKey: 'notify',
       inputsFields: [
         { name: 'endpoint', label: 'Slack endpoint', type: 'text', required: true },
-        { name: 'username', label: 'Bot name', type: 'text', required: true },
-        { name: 'icon_emoji', label: 'Bot picture', type: 'text', required: true },
         { name: 'text', label: 'Message', type: 'text', required: true }
       ]
     },
@@ -43,7 +43,7 @@ export default {
       label: 'Post to URL',
       instanceHash: process.env.WEBHOOK_HASH,
       taskKey: 'call',
-      description: { text: 'A POST request will be sent to this URL with the content of the event ', link: 'https://pastebin.com/whxdT0JE' },
+      description: { text: 'A POST request will be sent to this URL with the content of the event ', link: { label: '(example)', url: 'https://pastebin.com/whxdT0JE' } },
       inputsFields: [
         {
           name: 'hookUrl',
