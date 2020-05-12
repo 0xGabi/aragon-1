@@ -19,7 +19,7 @@ export default {
       name: 'Telegram',
       label: 'Send a message on Telegram',
       instanceHash: process.env.TELEGRAM_HASH,
-      description: { text: `To get a Telegram bot token following `, link: { label: `the document`, url: 'https://core.telegram.org/bots/api' } },
+      description: { text: `To get a Telegram bot token, follow `, link: { label: `this link`, url: 'https://core.telegram.org/bots/api' } },
       taskKey: 'notify',
       inputsFields: [
         { name: 'botToken', label: 'Bot token', type: 'text', required: true },
