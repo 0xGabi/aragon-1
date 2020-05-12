@@ -50,7 +50,7 @@ steps:
     from: 'notification@mesg.com'
     to: ${data.to}
     subject: ${data.subject}
-    text: {key: result}
+    html: {key: result}
   `.trim()
 
   const compiler = await process(Buffer.from(temp))
