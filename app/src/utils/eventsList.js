@@ -31,7 +31,7 @@ export default {
       name: 'Slack',
       label: 'Send a message on Slack',
       instanceHash: process.env.SLACK_HASH,
-      description: { text: 'To get a Slack endpoint following ', link: { label: 'the document', url: 'https://api.slack.com/messaging/webhooks' } },
+      description: { text: 'To get a Slack endpoint, follow ', link: { label: 'this link', url: 'https://api.slack.com/messaging/webhooks' } },
       taskKey: 'notify',
       inputsFields: [
         { name: 'endpoint', label: 'Slack endpoint', type: 'text', required: true },
