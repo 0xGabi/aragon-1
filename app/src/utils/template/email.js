@@ -1,9 +1,9 @@
 import { process } from '@liteflow/compiler'
+import { emailTemp } from '../helper'
 
-// eslint-disable-next-line no-template-curly-in-string
-const code = text => 'module.export = value => `' + text + ', Transaction hash link is https://rinkeby.etherscan.io/tx/${value.transactionHash}`'
+export default async ({ name, appAddress, eventAbi, mesgAddress, eventSignature, instanceHash, data, serviceLabel }) => {
+  const mailTemp = emailTemp('Aragon', { name, text: data.text, serviceLabel, abiName: eventAbi.name })
 
-export default async ({ name, appAddress, eventAbi, mesgAddress, eventSignature, instanceHash, data }) => {
   const temp = `
 name: ${name}-${mesgAddress}-${eventAbi.name}
 steps:
@@ -31,7 +31,8 @@ steps:
   instanceHash: ${process.env.JS_HASH}
   taskKey: execute
   inputs:
-    code: ${code(data.text)}
+    code: >
+      ${mailTemp}
     inputs:
       decodedData: {key: decodedData}
       address: {key: address}

@@ -23,6 +23,7 @@ class ServiceForm extends Component {
       mesgAddress: currentApp.appAddress,
       eventSignature,
       instanceHash: service.instanceHash,
+      serviceLabel: service.label,
       data: this.state
     })
 
