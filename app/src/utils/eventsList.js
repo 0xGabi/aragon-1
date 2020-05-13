@@ -17,30 +17,42 @@ export default {
     // },
     {
       name: 'Telegram',
+      label: 'Send a message on Telegram',
       instanceHash: process.env.TELEGRAM_HASH,
+      description: { text: `To get a Telegram bot token, follow `, link: { label: `this link`, url: 'https://core.telegram.org/bots/api' } },
       taskKey: 'notify',
       inputsFields: [
-        { name: 'botToken', label: 'Telegram bot token', type: 'text', required: true },
-        { name: 'chatId', label: 'Telegram chat id', type: 'text', required: true },
-        { name: 'sendText', label: 'Message to Notification', type: 'text', required: true }
+        { name: 'botToken', label: 'Bot token', type: 'text', required: true },
+        { name: 'chatId', label: 'Chat id', type: 'text', required: true },
+        { name: 'sendText', label: 'Message', type: 'text', required: true }
       ]
     },
     {
       name: 'Slack',
+      label: 'Send a message on Slack',
       instanceHash: process.env.SLACK_HASH,
+      description: { text: 'To get a Slack endpoint, follow ', link: { label: 'this link', url: 'https://api.slack.com/messaging/webhooks' } },
       taskKey: 'notify',
       inputsFields: [
-        { name: 'endpoint', label: 'Slack Endpoint', type: 'text', required: true },
-        { name: 'text', label: 'Message to Notification', type: 'text', required: true },
-        { name: 'icon_emoji', label: 'Emoji for the bot picture', type: 'text', required: true },
-        { name: 'username', label: 'Name of the user', type: 'text', required: true }
+        { name: 'endpoint', label: 'Slack endpoint', type: 'text', required: true },
+        { name: 'text', label: 'Message', type: 'text', required: true }
       ]
     },
     {
       name: 'Webhook',
+      label: 'Post to URL',
       instanceHash: process.env.WEBHOOK_HASH,
       taskKey: 'call',
-      inputsFields: [{ name: 'hookUrl', label: 'Webhook Url', type: 'text', placeholder: 'https://webhook.site', required: true }]
+      description: { text: 'A POST request will be sent to this URL with the content of the event ', link: { label: '(example)', url: 'https://pastebin.com/whxdT0JE' } },
+      inputsFields: [
+        {
+          name: 'hookUrl',
+          label: 'Url',
+          type: 'text',
+          placeholder: 'https://webhook.site',
+          required: true
+        }
+      ]
     },
     // {
     //   name: 'Twilio',
@@ -53,14 +65,13 @@ export default {
     // },
     {
       name: 'Email',
+      label: 'Send an email',
       instanceHash: process.env.SENDGRID_HASH,
       taskKey: 'send',
       inputsFields: [
-        { name: 'from', label: 'From email', type: 'text', placeholder: 'example@mail.com', required: true },
-        { name: 'to', label: 'to email', type: 'text', placeholder: 'example@mail.com', required: true },
+        { name: 'to', label: 'Email', type: 'text', placeholder: 'example@mail.com', required: true },
         { name: 'subject', label: 'Subject', type: 'text', required: true },
-        { name: 'text', label: 'The text of the email', type: 'text', required: false },
-        { name: 'html', label: 'The html content of the email', type: 'text', required: false }
+        { name: 'text', label: 'Content', type: 'text', required: false }
       ]
     }
   ]

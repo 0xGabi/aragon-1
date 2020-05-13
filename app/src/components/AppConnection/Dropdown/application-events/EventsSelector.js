@@ -5,7 +5,7 @@ class EventsSelector extends Component {
   static defaultProps = {
     onChange: () => {},
     abi: [],
-    label: 'Events',
+    label: 'emits event',
     disabled: true
   }
 
@@ -29,7 +29,7 @@ class EventsSelector extends Component {
     return (
       <Fragment>
         <Field label={label}>
-          <DropDown header='Application Events' items={items} selected={selectedIndex} onChange={this.handleChange} disabled={disabled} required wide />
+          <DropDown header='emits event' items={items} selected={selectedIndex} onChange={this.handleChange} disabled={disabled} required wide />
         </Field>
       </Fragment>
     )
