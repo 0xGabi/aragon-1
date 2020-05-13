@@ -140,5 +140,3 @@ Publish to AragonPM has `major`,`minor` and `patch` versions:
 ```sh
 $ aragon apm publish major --files dist/
 ```
-
-Make sur to also run the [process deployer](process/deployer/README.md) in order to automatically run the processes from your local node.
