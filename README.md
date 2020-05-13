@@ -1,5 +1,22 @@
 # Aragon MESG Application
 
+This MESG application allows you to connect any events from your Aragon DAO to emit event and notification with each service.
+
+This MESG application has 4 services defined:
+
+| **Services** | **task** |**description** |
+| --- | --- | --- |
+| **Email** | `Send an email` | when emit event from installed apps on Aragon DAO will send an email |
+| **Slack** | `Send message on slack` | when emit event from installed apps on Aragon DAO will send notification message to slack  |
+| **Telegram** | `Send message on telegram` | when emit event from installed apps on Aragon DAO will send notification message to telegram |
+| **Webhook** | `Post to URL` | when emit event from installed apps on Aragon DAO will post data to URL |
+
+Next Feature:
+
+- `Deactivate`, stop emit event data and don't send notification .
+- Add _**zapier service**_.
+- Add _**twilio service**_.
+
 ## Demo
 
 Check out the demo video:
@@ -50,11 +67,13 @@ you can do the following:
       $ dao acl create <dao-name>.aragonid.eth <mesg-addr> PUBLISH_ROLE <your-addr> <your-addr> --environment aragon:rinkeby
       ```
 
+<!--
     3.2 Set `DESACTIVATE_ROLE` permission
 
       ```sh
       $ dao acl create <dao-name>.aragonid.eth <mesg-addr> DESACTIVATE_ROLE <your-addr> <your-addr> --environment aragon:rinkeby
       ```  
+-->
 
 ### To upgrade MESG application version
 
@@ -118,11 +137,15 @@ This app has 3 environments defined:
 
 ### Get Application information command
 
+Display application information _`abis,contract address,name,latest version, etc.`_
+
 ```sh
 $ aragon apm info mesg.open.aragonpm.eth
 ```
 
 ### Get Application version command
+
+Display all application versions.
 
 ```sh
 $ aragon apm version mesg.open.aragonpm.eth
