@@ -13,7 +13,7 @@ This MESG application has 4 services defined:
 
 Next Feature:
 
-- `Deactivate`, stop emit event data and don't send notification .
+- `Deactivate`, It's a feature to remove connection from an event and don't send notification.
 - Add _**zapier service**_.
 - Add _**twilio service**_.
 
@@ -155,8 +155,8 @@ $ aragon apm version mesg.open.aragonpm.eth
 
 Publish to AragonPM has `major`,`minor` and `patch` versions:
 
-- Major are upgrade **content** and **contract**.
-- Minor and patch are upgrade **front-end only**.
+- _major_ is upgrade **content** and **contract**.
+- _minor_ and _patch_ are upgrade **front-end only**.
 
 #### Publish command
 
