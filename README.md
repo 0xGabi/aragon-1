@@ -21,7 +21,7 @@ Next Feature:
 
 Check out the demo video:
 
-[![Demo: Set up Telegram notificatons from DAO votes](https://img.youtube.com/vi/MctlHrLSm70/0.jpg)](https://www.youtube.com/watch?v=vheVh_taMI8&feature=youtu.be "Demo: Set up Telegram notificatons from DAO votes")
+[![Demo: Set up Telegram notificatons from DAO votes](http://i3.ytimg.com/vi/7R1pBGLJbPs/maxresdefault.jpg)](https://www.youtube.com/watch?v=7R1pBGLJbPs&feature=youtu.be "Demo: Set up Telegram notificatons from DAO votes")
 
 ### Global dependencies should install
 
