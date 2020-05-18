@@ -21,7 +21,7 @@ Next Feature:
 
 Check out the demo video:
 
-[![Demo: Connect your DAO events to any webhook](https://img.youtube.com/vi/MctlHrLSm70/0.jpg)](https://www.youtube.com/watch?v=MctlHrLSm70 "Demo: Connect your DAO events to any webhook")
+[![Demo: Set up Telegram notificatons from DAO votes](https://img.youtube.com/vi/MctlHrLSm70/0.jpg)](https://www.youtube.com/watch?v=vheVh_taMI8&feature=youtu.be "Demo: Set up Telegram notificatons from DAO votes")
 
 ### Global dependencies should install
 
