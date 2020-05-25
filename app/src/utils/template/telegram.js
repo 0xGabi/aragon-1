@@ -29,7 +29,7 @@ steps:
   taskKey: notify
   inputs:
     botToken: ${data.botToken}
-    chatId: ${data.chatId}
+    chatId: '${data.chatId}'
     text: ${data.sendText}
   `.trim()
 
