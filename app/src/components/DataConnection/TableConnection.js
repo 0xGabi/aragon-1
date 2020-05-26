@@ -156,26 +156,26 @@ function TableConnection({ appState: { processes }, installedApps }) {
             // </div>
           ]
         }}
-        // renderEntryActions={({ entity, index }) => {
-        //   return (
-        //     <ContextMenu zIndex={1}>
-        //       <ContextMenuItem onClick={() => api.deactivate(index, organization.appAddress.toLowerCase()).toPromise()}>
-        //         <IconRemove
-        //           css={`
-        //             color: ${theme.surfaceContentSecondary};
-        //           `}
-        //         />
-        //         <span
-        //           css={`
-        //             margin-left: ${1 * GU}px;
-        //           `}
-        //         >
-        //           DEACTIVATED
-        //         </span>
-        //       </ContextMenuItem>
-        //     </ContextMenu>
-        //   )
-        // }}
+        renderEntryActions={({ entity, index }) => {
+          return (
+            <ContextMenu zIndex={1}>
+              <ContextMenuItem onClick={() => api.deactivate(index, organization.appAddress.toLowerCase()).toPromise()}>
+                <IconRemove
+                  css={`
+                    color: ${theme.surfaceContentSecondary};
+                  `}
+                />
+                <span
+                  css={`
+                    margin-left: ${1 * GU}px;
+                  `}
+                >
+                  DEACTIVATED
+                </span>
+              </ContextMenuItem>
+            </ContextMenu>
+          )
+        }}
       />
     </Fragment>
   )
