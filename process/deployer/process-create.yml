@@ -1,4 +1,4 @@
-name: "MESG Aragon app"
+name: 'MESG Aragon app'
 steps:
   - type: trigger
     instance:
