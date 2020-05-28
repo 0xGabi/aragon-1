@@ -72,12 +72,12 @@ function TableConnection({ appState: { processes }, installedApps }) {
           { label: 'App', priority: 3 },
           { label: 'Event', priority: 3 },
           { label: 'Task', priority: 3 },
-          { label: 'Data', priority: 1 }
-          // { label: 'Status', priority: 2 }
+          { label: 'Data', priority: 1 },
+          { label: 'Status', priority: 2 }
         ]}
         entries={processes.map(
-          (process, i) => ({
-            index: i,
+          process => ({
+            index: process.index,
             createdAt: moment.unix(process.createdAt).format('DD/MM/YY'),
             appAddress: process.appAddress,
             eventName: process.eventName,
@@ -130,35 +130,35 @@ function TableConnection({ appState: { processes }, installedApps }) {
                 <IconView />
                 &nbsp;&nbsp; View Data
               </Button>
+            </div>,
+            <div
+              css={`
+                padding: 10px ${0.5 * GU}px;
+              `}
+            >
+              {active ? (
+                <span
+                  css={`
+                    color: ${theme.positive};
+                  `}
+                >
+                  <b>ACTIVATED</b>
+                </span>
+              ) : (
+                <span
+                  css={`
+                    color: ${theme.negative};
+                  `}
+                >
+                  <b>DEACTIVATED</b>
+                </span>
+              )}
             </div>
-            // <div
-            //   css={`
-            //     padding: 10px ${0.5 * GU}px;
-            //   `}
-            // >
-            //   {active ? (
-            //     <span
-            //       css={`
-            //         color: ${theme.positive};
-            //       `}
-            //     >
-            //       <b>ACTIVATED</b>
-            //     </span>
-            //   ) : (
-            //     <span
-            //       css={`
-            //         color: ${theme.negative};
-            //       `}
-            //     >
-            //       <b>DEACTIVATED</b>
-            //     </span>
-            //   )}
-            // </div>
           ]
         }}
-        renderEntryActions={({ entity, index }) => {
+        renderEntryActions={({ entity, index, active }) => {
           return (
-            <ContextMenu zIndex={1}>
+            <ContextMenu zIndex={1} disabled={!active}>
               <ContextMenuItem onClick={() => api.deactivate(index, organization.appAddress.toLowerCase()).toPromise()}>
                 <IconRemove
                   css={`
