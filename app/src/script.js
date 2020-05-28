@@ -82,7 +82,13 @@ async function getProcessUpdate() {
       .fill(null)
       .map((_, i) => app.call('getProcess', i).toPromise())
       .map(data => data.catch(Error))
-    const processes = (await Promise.all(newArray)).filter(result => !(result instanceof Error))
+    const processes = (await Promise.all(newArray))
+      .map((value, i) => ({ index: i, value }))
+      .filter(result => !(result.value instanceof Error))
+      .map(result => ({
+        index: result.index,
+        ...result.value
+      }))
     return processes
   } catch (error) {
     console.log(error)
