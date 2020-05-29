@@ -9,7 +9,12 @@ This MESG application has 4 services defined:
 | **Email** | `Send an email` | when emit event from installed apps on Aragon DAO will send an email |
 | **Slack** | `Send message on slack` | when emit event from installed apps on Aragon DAO will send notification message to slack  |
 | **Telegram** | `Send message on telegram` | when emit event from installed apps on Aragon DAO will send notification message to telegram |
+| **Twilio** | `Send message on SMS` | when emit event from installed apps on Aragon DAO will send notification to SMS |
 | **Webhook** | `Post to URL` | when emit event from installed apps on Aragon DAO will post data to URL |
+
+Next Feature:
+
+- Add _**zapier service**_.
 
 ## Demo
 
