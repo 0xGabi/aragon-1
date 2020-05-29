@@ -54,7 +54,7 @@ class PanelConnection extends Component {
   render() {
     const { opened, onClose, installedApps, api, currentApp } = this.props
     const { selectedApp, selectedAppEvents, selectedService } = this.state
-    const DdApps = installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== 'MESG')
+    const DdApps = installedApps.filter(app => app.appImplementationAddress !== undefined && app.name !== currentApp?.name)
     const organization = installedApps.find(app => app.name === 'Kernel')
 
     this.handleChange = this.handleChange.bind(this)
