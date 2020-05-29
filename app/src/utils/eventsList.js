@@ -54,15 +54,16 @@ export default {
         }
       ]
     },
-    // {
-    //   name: 'Twilio',
-    //   instanceHash: process.env.TWILIO_HASH,
-    //   taskKey: 'sms',
-    //   inputsFields: [
-    //     { name: 'to', label: 'Number to receive the SMS', type: 'text', placeholder: '+66999999999', required: true },
-    //     { name: 'body', label: 'Message to send the SMS', type: 'text', required: true }
-    //   ]
-    // },
+    {
+      name: 'Twilio',
+      label: 'Send a message on SMS',
+      instanceHash: process.env.TWILIO_HASH,
+      taskKey: 'sms',
+      inputsFields: [
+        { name: 'to', label: 'Number to receive the SMS', type: 'text', placeholder: '+66999999999', required: true },
+        { name: 'body', label: 'Message', type: 'text', required: true }
+      ]
+    },
     {
       name: 'Email',
       label: 'Send an email',
