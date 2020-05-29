@@ -12,20 +12,20 @@ module.exports = {
     const pct16 = x => bigExp(x, 16)
     accounts = await bre.web3.eth.getAccounts()
 
+    token = await _experimentalAppInstaller('token-manager', { skipInitialize: true })
+    log(`> Agent app installed: ${token.address}`)
+
     // Deploy a minime token an generate tokens to root account
     const minime = await _deployMinimeToken(bre)
     await minime.generateTokens(accounts[0], pct16(100))
     log(`> Minime token deployed: ${minime.address}`)
-
-    token = await _experimentalAppInstaller('token-manager', { skipInitialize: true })
-    log(`> Agent app installed: ${token.address}`)
 
     await minime.changeController(token.address)
     log(`> Change minime controller to token app`)
     await token.initialize([minime.address, true, 0])
     log(`> token app installed: ${token.address}`)
 
-    voting = await _experimentalAppInstaller('voting', { initializeArgs: [token.address, '600000000000000000', '250000000000000000', '604800'] })
+    voting = await _experimentalAppInstaller('voting', { initializeArgs: [minime.address, pct16(60), pct16(35), 604800] })
     log(`> voting app installed: ${token.address}`)
   },
 
