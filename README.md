@@ -47,7 +47,7 @@ you can do the following:
 1. Install `MESG application` to your Aragon DAO.
 
     ```sh
-    $ dao install <dao-name>.aragonid.eth mesg.open.aragonpm.eth --environment aragon:rinkeby
+    $ dao install <dao-name>.aragonid.eth liteflow.open.aragonpm.eth --environment aragon:rinkeby
     ```
 
 2. Check your Aragon DAO permission and check `MESG application` has been installed.
@@ -56,7 +56,7 @@ you can do the following:
     $ dao apps --all <dao-name>.aragonid.eth --environment aragon:rinkeby
     ```
 
-    You should see a list of apps with the `mesg.open.aragonpm.eth` and `MESG application address` listed under permissionless apps.
+    You should see a list of apps with the `liteflow.open.aragonpm.eth` and `MESG application address` listed under permissionless apps.
 
 3. Set permission to `MESG Application` on your Aragon DAO.
 
@@ -77,13 +77,13 @@ you can do the following:
 1. Check the latest version of MESG application.
 
     ```sh
-    $ aragon apm versions mesg.open.aragonpm.eth --environment aragon:rinkeby
+    $ aragon apm versions liteflow.open.aragonpm.eth --environment aragon:rinkeby
     ```
 
 2. Upgrade to latest version.
 
     ```sh
-    $ dao upgrade <dao-name>.aragonid.eth mesg.open.aragonpm.eth --environment aragon:rinkeby
+    $ dao upgrade <dao-name>.aragonid.eth liteflow.open.aragonpm.eth --environment aragon:rinkeby
     ```
 
 ## Developer quick start 👩‍💻
@@ -136,15 +136,15 @@ This app has 3 environments defined:
 Display application information _`abis,contract address,name,latest version, etc.`_
 
 ```sh
-$ aragon apm info mesg.open.aragonpm.eth
+$ aragon apm info liteflow.open.aragonpm.eth
 ```
 
-### Get Application version command
+### Check published versions
 
 Display all application versions.
 
 ```sh
-$ aragon apm version mesg.open.aragonpm.eth
+$ aragon apm version liteflow.open.aragonpm.eth
 ```
 
 ### Publish Application to AragonPM

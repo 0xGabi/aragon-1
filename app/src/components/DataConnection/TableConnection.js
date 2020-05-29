@@ -170,7 +170,7 @@ function TableConnection({ appState: { processes }, installedApps }) {
                     margin-left: ${1 * GU}px;
                   `}
                 >
-                  DEACTIVATED
+                  DEACTIVATE
                 </span>
               </ContextMenuItem>
             </ContextMenu>
