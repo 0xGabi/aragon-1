@@ -5,6 +5,7 @@ steps:
       src: https://github.com/liteflow-services/ethereum
       env:
         - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
+        - BLOCK_CONFIRMATIONS=0
     eventKey: log
   - type: filter
     conditions:
@@ -14,6 +15,7 @@ steps:
       src: https://github.com/liteflow-services/ethereum
       env:
         - PROVIDER_ENDPOINT=$(env:PROVIDER_ENDPOINT)
+        - BLOCK_CONFIRMATIONS=0
     taskKey: decodeLog
     inputs:
       eventAbi: '{"anonymous":false,"inputs":[{"indexed":false,"name":"processUrl","type":"string"},{"indexed":false,"name":"projectName","type":"address"}],"name":"MESGProcessCreate","type":"event"}'
