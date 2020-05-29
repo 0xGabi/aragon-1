@@ -25,7 +25,7 @@ module.exports = {
     clientServePort: 9000,
     appSrcPath: 'app/',
     appBuildOutputPath: 'dist/',
-    appName: 'mesg',
+    appName: 'liteflow',
     hooks // Path to script hooks
   }
 }
